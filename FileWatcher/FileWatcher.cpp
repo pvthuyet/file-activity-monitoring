@@ -1,16 +1,24 @@
 // FileWatcher.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "logger.h"
+#include "logger_define.h"
+#include "fmt/format.h"
+#include "vld/vld.h"
 #include<exception>
+#include <iostream>
+#include <cassert>
 
 int wmain(int argc, wchar_t* argv[])
 {
     try
     {
-        int xx = 0;
+        fibo::Logger::createLogger();
     }
     catch (std::exception const& e)
     {
+        std::cout << "Exception: " << e.what() << std::endl;
+        assert(false);
     }
     return 0;
 }
