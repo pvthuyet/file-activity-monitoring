@@ -1,20 +1,25 @@
 // FileWatcher.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "vld/vld.h"
 #include "logger_define.h"
 #include "fmt/format.h"
-#include "vld/vld.h"
-#include<exception>
+#include "minidump.h"
+#include <exception>
 #include <iostream>
 #include <cassert>
+#include <concepts>
 
 import FiboLogger;
 
 int wmain(int argc, wchar_t* argv[])
 {
+    fibo::MiniDump::monitoring();
+    using namespace std::chrono_literals;
     try
     {
         fibo::Logger::createLogger();
+        SPDLOG_DEBUG("Hello world!");
     }
     catch (std::exception const& e)
     {
