@@ -4,18 +4,17 @@
 #include "vld/vld.h"
 #include "logger_define.h"
 #include "fmt/format.h"
-#include "minidump.h"
 #include <exception>
 #include <iostream>
 #include <cassert>
 #include <concepts>
 
 import FiboLogger;
+import Minidump;
 
 int wmain(int argc, wchar_t* argv[])
 {
     fibo::MiniDump::monitoring();
-    using namespace std::chrono_literals;
     try
     {
         fibo::Logger::createLogger();
