@@ -18,7 +18,6 @@ int wmain(int argc, wchar_t* argv[])
     try
     {
         fibo::Logger::createLogger();
-        SPDLOG_DEBUG("Hello world!");
     }
     catch (std::exception const& e)
     {
