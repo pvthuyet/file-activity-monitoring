@@ -10,7 +10,7 @@
 #include <concepts>
 
 import FiboLogger;
-import Minidump;
+import FiboMinidump;
 
 int wmain(int argc, wchar_t* argv[])
 {
