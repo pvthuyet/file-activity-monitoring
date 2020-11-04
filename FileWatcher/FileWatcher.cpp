@@ -26,8 +26,8 @@ int wmain(int argc, wchar_t* argv[])
         SPDLOG_INFO(L"{}", fibo::StringUtils::convert("hello world from mb2wc"));
         SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
 
-        auto vt = fibo::StringUtils::split("hello,world,ok", L","s);
-        //for(const auto& e : vt) SPDLOG_INFO(e);
+        auto vt = fibo::StringUtils::split("hello,world,ok", ","s);
+        for(const auto& e : vt) SPDLOG_INFO(e);
     }
     catch (std::exception const& e)
     {
