@@ -23,11 +23,15 @@ int wmain(int argc, wchar_t* argv[])
     {
         fibo::Logger::createLogger();
         SPDLOG_INFO("{}", fibo::StringUtils::convert(L"hello world from wc2mb"));
-        SPDLOG_INFO(L"{}", fibo::StringUtils::convert("hello world from mb2wc"));
         SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
 
+        // split
         auto vt = fibo::StringUtils::split("hello,world,ok", ","s);
         for(const auto& e : vt) SPDLOG_INFO(e);
+
+        // equal
+        auto eq = fibo::StringUtils::equal("hello", "helLo"sv, true);
+        SPDLOG_INFO("equal: {}", eq);
     }
     catch (std::exception const& e)
     {
