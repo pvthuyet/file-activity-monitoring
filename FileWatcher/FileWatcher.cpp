@@ -14,6 +14,27 @@ import FiboLogger;
 import FiboMinidump;
 import FiboStringUtils;
 
+#include <iostream>
+#include <type_traits>
+
+template <typename T, typename U>
+struct decay_equiv :
+    std::is_same<std::remove_cvref_t<std::remove_pointer_t<std::decay_t<T>>>, U>::type
+{};
+
+int testDecay()
+{
+    std::cout << std::boolalpha
+        << decay_equiv<char, char>::value << '\n'
+        << decay_equiv<char&, char>::value << '\n'
+        << decay_equiv<char&&, char>::value << '\n'
+        << decay_equiv<const char&, char>::value << '\n'
+        << decay_equiv<char[100], char>::value << '\n'
+        << decay_equiv<char*, char>::value << '\n'
+        << decay_equiv<const char*, char>::value << '\n'
+        ;
+}
+
 int wmain(int argc, wchar_t* argv[])
 {
     using namespace std::string_literals;
