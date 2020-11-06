@@ -15,8 +15,14 @@ import FiboMinidump;
 import FiboStringUtils;
 import FiboConcept;
 
+template<auto X, auto Y>
+struct ValueIdentity {
+    static constexpr auto value = X;
+};
+
 int test()
 {
+    static_assert(42 == ValueIdentity<42, 'x'>::value);
     static_assert(std::is_same_v<char,      fibo::primitive_string_t<char[12]>>, "Not the same type");
     static_assert(std::is_same_v<char,      fibo::primitive_string_t<char const[12]>>, "Not the same type");
     static_assert(std::is_same_v<char,      fibo::primitive_string_t<char const [12]>>, "Not the same type");
@@ -33,11 +39,15 @@ int test()
     static_assert(std::is_same_v<char16_t,  fibo::primitive_string_t<std::u16string_view>>, "Not the same type");
     static_assert(std::is_same_v<char32_t,  fibo::primitive_string_t<std::u32string>>, "Not the same type");
     static_assert(std::is_same_v<char32_t,  fibo::primitive_string_t<std::u32string_view>>, "Not the same type");
+    //static_assert(std::is_same_v<char,      fibo::primitive_string_t<std::nullptr_t>>, "Not the same type");
+    //static_assert(std::is_same_v<char,      fibo::primitive_string_t<void>>, "Not the same type");
+    //static_assert(std::is_same_v<char, fibo::primitive_string_t<int>>, "Not the same type");
     return 0;
 }
 
 int wmain(int argc, wchar_t* argv[])
 {
+    return test();
     using namespace std::string_literals;
     using namespace std::string_view_literals;
     fibo::MiniDump::monitoring();
