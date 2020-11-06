@@ -3,7 +3,7 @@
 
 #include "vld/vld.h"
 #include "logger_define.h"
-#include "fmt/format.h"
+//#include "fmt/format.h"
 #include <exception>
 #include <iostream>
 #include <cassert>
@@ -42,6 +42,10 @@ int test()
     //static_assert(std::is_same_v<char,      fibo::primitive_string_t<std::nullptr_t>>, "Not the same type");
     //static_assert(std::is_same_v<char,      fibo::primitive_string_t<void>>, "Not the same type");
     //static_assert(std::is_same_v<char, fibo::primitive_string_t<int>>, "Not the same type");
+    //const char* c = nullptr;
+    //static_assert(std::is_same_v<char, fibo::primitive_string_t<decltype(c)>>, "Not the same type");
+    //auto s = fmt::format("hello world");
+    //std::cout << s << '\n';
     return 0;
 }
 
@@ -58,17 +62,18 @@ int wmain(int argc, wchar_t* argv[])
         SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
 
         // split
-        auto vt = fibo::StringUtils::split(std::string{ "hello,world,ok" }, std::string{ "," });
+        auto vt = fibo::StringUtils::split("hello,world,ok", ",");
         for(const auto& e : vt) SPDLOG_INFO(e);
 
         // equal
-        auto eq = fibo::StringUtils::equal("hello"s, "helLo", true);
+        char const* c = NULL;
+        auto eq = fibo::StringUtils::equal("hello"s, c, true);
         SPDLOG_INFO("equal: {}", eq);
     }
     catch (std::exception const& e)
     {
         std::cout << "Exception: " << e.what() << std::endl;
-        assert(false);
+        //assert(false);
     }
     return 0;
 }
