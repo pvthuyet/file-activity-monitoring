@@ -2,78 +2,44 @@
 //
 
 #include "vld/vld.h"
-#include "logger_define.h"
+//#include "logger_define.h"
 //#include "fmt/format.h"
-#include <exception>
-#include <iostream>
-#include <cassert>
-#include <concepts>
-#include <string>
 
-import FiboLogger;
+//import FiboLogger;
 import FiboMinidump;
 import FiboStringUtils;
-import FiboConcept;
-
-template<auto X, auto Y>
-struct ValueIdentity {
-    static constexpr auto value = X;
-};
+import std.core;
 
 int test()
 {
-    static_assert(42 == ValueIdentity<42, 'x'>::value);
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char[12]>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char const[12]>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char const [12]>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char *>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char const *>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<char * const>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<std::string>>, "Not the same type");
-    static_assert(std::is_same_v<char,      fibo::primitive_string_t<std::string_view>>, "Not the same type");
-    static_assert(std::is_same_v<wchar_t,   fibo::primitive_string_t<std::wstring>>, "Not the same type");
-    static_assert(std::is_same_v<wchar_t,   fibo::primitive_string_t<std::wstring_view>>, "Not the same type");
-    static_assert(std::is_same_v<char8_t,   fibo::primitive_string_t<std::u8string>>, "Not the same type");
-    static_assert(std::is_same_v<char8_t,   fibo::primitive_string_t<std::u8string_view>>, "Not the same type");
-    static_assert(std::is_same_v<char16_t,  fibo::primitive_string_t<std::u16string>>, "Not the same type");
-    static_assert(std::is_same_v<char16_t,  fibo::primitive_string_t<std::u16string_view>>, "Not the same type");
-    static_assert(std::is_same_v<char32_t,  fibo::primitive_string_t<std::u32string>>, "Not the same type");
-    static_assert(std::is_same_v<char32_t,  fibo::primitive_string_t<std::u32string_view>>, "Not the same type");
-    //static_assert(std::is_same_v<char,      fibo::primitive_string_t<std::nullptr_t>>, "Not the same type");
-    //static_assert(std::is_same_v<char,      fibo::primitive_string_t<void>>, "Not the same type");
-    //static_assert(std::is_same_v<char, fibo::primitive_string_t<int>>, "Not the same type");
-    //const char* c = nullptr;
-    //static_assert(std::is_same_v<char, fibo::primitive_string_t<decltype(c)>>, "Not the same type");
-    //auto s = fmt::format("hello world");
-    //std::cout << s << '\n';
+    fibo::StringUtils::convert("hello");
+    std::cout << "hello world\n";
     return 0;
 }
 
 int wmain(int argc, wchar_t* argv[])
 {
-    return test();
+    //return test();
+    fibo::MiniDump::monitoring("");
     using namespace std::string_literals;
     using namespace std::string_view_literals;
-    fibo::MiniDump::monitoring();
     try
     {
-        fibo::Logger::createLogger();
-        SPDLOG_INFO("{}", fibo::StringUtils::convert(L"hello world from wc2mb"));
-        SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
+        //fibo::Logger::createLogger();
+        //SPDLOG_INFO("{}", fibo::StringUtils::convert(L"hello world from wc2mb"));
+        //SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
 
         // split
         auto vt = fibo::StringUtils::split("hello,world,ok", ",");
-        for(const auto& e : vt) SPDLOG_INFO(e);
+        //for(const auto& e : vt) SPDLOG_INFO(e);
 
-        // equal
-        char const* c = NULL;
-        auto eq = fibo::StringUtils::equal("hello"s, c, true);
-        SPDLOG_INFO("equal: {}", eq);
+        //// equal
+        auto eq = fibo::StringUtils::equal("hello"s, "hello", true);
+        //SPDLOG_INFO("equal: {}", eq);
     }
     catch (std::exception const& e)
     {
         std::cout << "Exception: " << e.what() << std::endl;
-        //assert(false);
     }
     return 0;
 }
