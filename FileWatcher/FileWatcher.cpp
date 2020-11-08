@@ -4,7 +4,7 @@
 #include "vld/vld.h"
 //#include "logger_define.h"
 //#include "fmt/format.h"
-#include "stdafx.h"
+#include "fibo_std.h"
 
 //import FiboLogger; //++ TODO Can't use
 import Fibo.Minidump;
