@@ -5,37 +5,34 @@
 //#include "logger_define.h"
 //#include "fmt/format.h"
 
-//import FiboLogger;
+//import FiboLogger; //++ TODO Can't use
 import FiboMinidump;
 import FiboStringUtils;
 import std.core;
 
-int test()
-{
-    fibo::StringUtils::convert("hello");
-    std::cout << "hello world\n";
-    return 0;
-}
-
 int wmain(int argc, wchar_t* argv[])
 {
-    //return test();
     fibo::MiniDump::monitoring("");
-    using namespace std::string_literals;
-    using namespace std::string_view_literals;
     try
     {
+        using namespace std::string_literals;
+        using namespace std::string_view_literals;
+
         //fibo::Logger::createLogger();
-        //SPDLOG_INFO("{}", fibo::StringUtils::convert(L"hello world from wc2mb"));
-        //SPDLOG_INFO(fibo::StringUtils::randAlphabet(32));
+        auto wc2mb = fibo::StringUtils::convert(L"hello world from wc2mb");
+        std::cout << wc2mb;
+
+        auto mb2wc = fibo::StringUtils::convert("hello world from mb2wc");
+        std::wcout << mb2wc;
 
         // split
-        auto vt = fibo::StringUtils::split("hello,world,ok", ",");
-        //for(const auto& e : vt) SPDLOG_INFO(e);
+        char const* nil = nullptr;
+        auto vt = fibo::StringUtils::split("hello,world,ok", nil);
+        for (const auto& e : vt) std::cout << e << '\n';
 
         //// equal
         auto eq = fibo::StringUtils::equal("hello"s, "hello", true);
-        //SPDLOG_INFO("equal: {}", eq);
+        std::cout << "equal: " << eq << '\n';
     }
     catch (std::exception const& e)
     {
