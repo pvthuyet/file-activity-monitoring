@@ -6,8 +6,8 @@
 //#include "fmt/format.h"
 
 //import FiboLogger; //++ TODO Can't use
-import FiboMinidump;
-import FiboStringUtils;
+import Fibo.Minidump;
+import Fibo.StringUtils;
 import std.core;
 
 int wmain(int argc, wchar_t* argv[])
