@@ -4,11 +4,11 @@
 #include "vld/vld.h"
 //#include "logger_define.h"
 //#include "fmt/format.h"
+#include "stdafx.h"
 
 //import FiboLogger; //++ TODO Can't use
 import Fibo.Minidump;
 import Fibo.StringUtils;
-import std.core;
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -20,17 +20,17 @@ int wmain(int argc, wchar_t* argv[])
 
         //fibo::Logger::createLogger();
         auto wc2mb = fibo::StringUtils::convert(L"hello world from wc2mb");
-        std::cout << wc2mb;
+        std::cout << wc2mb << '\n';
 
         auto mb2wc = fibo::StringUtils::convert("hello world from mb2wc");
-        std::wcout << mb2wc;
+        std::wcout << mb2wc << '\n';
 
         // split
         char const* nil = nullptr;
-        auto vt = fibo::StringUtils::split("hello,world,ok", nil);
+        auto vt = fibo::StringUtils::split("hello,world,ok", ",");
         for (const auto& e : vt) std::cout << e << '\n';
 
-        //// equal
+        // equal
         auto eq = fibo::StringUtils::equal("hello"s, "hello", true);
         std::cout << "equal: " << eq << '\n';
     }
