@@ -4,10 +4,10 @@
 #include "fibo_std.h"
 #include "vld/vld.h"
 #include "logger_define.h"
-#include "DummyCall.h"
 
 import Fibo.Logger; //++ TODO Can't use logger and fmt/format together
 import Fibo.Minidump;
+import Fibo.DummyManager;
 
 int wmain(int argc, wchar_t* argv[])
 {
@@ -15,8 +15,8 @@ int wmain(int argc, wchar_t* argv[])
     try
     {
         fibo::Logger::createLogger();
-        DummyCall dm{};
-        dm.print();
+        fibo::DummyManager dumMgr{};
+        dumMgr.print();
     }
     catch (std::exception const& e)
     {
