@@ -7,23 +7,25 @@
 #include "fibo_std.h"
 #include "DummyCall.h"
 
-//import FiboLogger; //++ TODO Can't use
+//import Fibo.Logger; //++ TODO Can't use logger and fmt/format together
 import Fibo.Minidump;
 import Fibo.StringUtils;
 
 int wmain(int argc, wchar_t* argv[])
 {
+    DummyCall dm;
+    dm.print();
+
     fibo::MiniDump::monitoring("");
     try
     {
         using namespace std::string_literals;
         using namespace std::string_view_literals;
 
-        DummyCall dm;
-        dm.print();
         //fibo::Logger::createLogger();
         auto wc2mb = fibo::StringUtils::convert(L"hello world from wc2mb");
         std::cout << wc2mb << '\n';
+        //SPDLOG_INFO(wc2mb);
 
         auto mb2wc = fibo::StringUtils::convert("hello world from mb2wc");
         std::wcout << mb2wc << '\n';
@@ -34,7 +36,7 @@ int wmain(int argc, wchar_t* argv[])
         for (const auto& e : vt) std::cout << e << '\n';
 
         // equal
-        auto eq = fibo::StringUtils::equal("hello"s, "hello", true);
+        auto eq = fibo::StringUtils::equal("hello"s, nil, true);
         std::cout << "equal: " << eq << '\n';
     }
     catch (std::exception const& e)
