@@ -5,6 +5,7 @@
 //#include "logger_define.h"
 //#include "fmt/format.h"
 #include "fibo_std.h"
+#include "DummyCall.h"
 
 //import FiboLogger; //++ TODO Can't use
 import Fibo.Minidump;
@@ -18,6 +19,8 @@ int wmain(int argc, wchar_t* argv[])
         using namespace std::string_literals;
         using namespace std::string_view_literals;
 
+        DummyCall dm;
+        dm.print();
         //fibo::Logger::createLogger();
         auto wc2mb = fibo::StringUtils::convert(L"hello world from wc2mb");
         std::cout << wc2mb << '\n';
