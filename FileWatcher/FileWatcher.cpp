@@ -1,43 +1,19 @@
 // FileWatcher.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "vld/vld.h"
-//#include "logger_define.h"
-//#include "fmt/format.h"
 #include "fibo_std.h"
-#include "DummyCall.h"
+#include "vld/vld.h"
+#include "logger_define.h"
 
-//import Fibo.Logger; //++ TODO Can't use logger and fmt/format together
+import Fibo.Logger; //++ TODO Can't use logger and fmt/format together
 import Fibo.Minidump;
-import Fibo.StringUtils;
 
 int wmain(int argc, wchar_t* argv[])
 {
-    DummyCall dm;
-    dm.print();
-
     fibo::MiniDump::monitoring("");
     try
     {
-        using namespace std::string_literals;
-        using namespace std::string_view_literals;
-
-        //fibo::Logger::createLogger();
-        auto wc2mb = fibo::StringUtils::convert(L"hello world from wc2mb");
-        std::cout << wc2mb << '\n';
-        //SPDLOG_INFO(wc2mb);
-
-        auto mb2wc = fibo::StringUtils::convert("hello world from mb2wc");
-        std::wcout << mb2wc << '\n';
-
-        // split
-        char const* nil = nullptr;
-        auto vt = fibo::StringUtils::split("hello,world,ok", ",");
-        for (const auto& e : vt) std::cout << e << '\n';
-
-        // equal
-        auto eq = fibo::StringUtils::equal("hello"s, nil, true);
-        std::cout << "equal: " << eq << '\n';
+        fibo::Logger::createLogger();
     }
     catch (std::exception const& e)
     {
