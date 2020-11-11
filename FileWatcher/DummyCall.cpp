@@ -2,8 +2,6 @@
 #include "fibo_std.h"
 #include "DummyCall.h"
 
-//import FiboLogger; //++ TODO Can't use
-import Fibo.Minidump;
 import Fibo.StringUtils;
 
 void DummyCall::print()
