@@ -13,7 +13,7 @@ namespace fibo
 	{
 	public:
 		virtual ~ClipboardWatcher() noexcept {}
-		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) const override final;
+		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;
 		void start();
 		void stop() noexcept;
 
