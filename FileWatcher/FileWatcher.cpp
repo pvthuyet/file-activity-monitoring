@@ -27,7 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
+    //++ TODO: thuyet ApplicationManager
     fibo::ApplicationManager::getInst().run();
 
     // Initialize global strings
