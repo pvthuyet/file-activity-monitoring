@@ -15,6 +15,10 @@ namespace fibo
 		~ApplicationManager() noexcept;
 		void run();
 
+		// no copyable
+		ApplicationManager(ApplicationManager const&) = delete;
+		ApplicationManager& operator=(ApplicationManager const&) = delete;
+
 	private:
 		ApplicationManager();
 		void initialize();

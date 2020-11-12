@@ -1,10 +1,8 @@
 module;
 
 #include <Windows.h>
-#include <thread>
 #include <memory>
 #include "logger_define.h"
-#include "jthread/jthread.hpp"
 
 module Fibo.ClipboardWatcher;
 
@@ -15,23 +13,17 @@ namespace fibo
 		stop();
 	}
 
-	LRESULT ClipboardWatcher::procedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+	ClipboardWatcher::ClipboardWatcher(ClipboardWatcher &&other) noexcept :
+		msgEvent_{std::exchange(other.msgEvent_, nullptr)}
+	{}
+
+	ClipboardWatcher& ClipboardWatcher::operator=(ClipboardWatcher &&other) noexcept
 	{
-		switch (msg)
-		{
-		case WM_CLIPBOARDUPDATE:
-			SPDLOG_INFO("Clipboard is updated!");
-			break;
-
-		case WM_DESTROY:
-			SPDLOG_INFO("WM_DESTROY monitor clipboard");
-			::PostQuitMessage(0);
-			break;
-
-		default:
-			return ::DefWindowProc(hwnd, msg, wparam, lparam);
+		if (this != &other) {
+			this->~ClipboardWatcher();
+			msgEvent_ = std::exchange(other.msgEvent_, nullptr);
 		}
-		return 0;
+		return *this;
 	}
 
 	void ClipboardWatcher::start()
@@ -60,5 +52,24 @@ namespace fibo
 			msgEvent_->unregisterWndClass();
 			msgEvent_ = nullptr;
 		}
+	}
+
+	LRESULT ClipboardWatcher::procedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+	{
+		switch (msg)
+		{
+		case WM_CLIPBOARDUPDATE:
+			SPDLOG_INFO("Clipboard is updated!");
+			break;
+
+		case WM_DESTROY:
+			SPDLOG_INFO("WM_DESTROY monitor clipboard");
+			::PostQuitMessage(0);
+			break;
+
+		default:
+			return ::DefWindowProc(hwnd, msg, wparam, lparam);
+		}
+		return 0;
 	}
 }
