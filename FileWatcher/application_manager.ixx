@@ -5,6 +5,7 @@ module;
 export module Fibo.ApplicationManager;
 
 import Fibo.ClipboardWatcher;
+import Fibo.FileInfo; // Why ??? I don't use here
 
 namespace fibo
 {

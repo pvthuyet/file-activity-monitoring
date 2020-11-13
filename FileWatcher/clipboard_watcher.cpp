@@ -2,9 +2,12 @@ module;
 
 #include <Windows.h>
 #include <memory>
+#include <concurrent_vector.h>
 #include "logger_define.h"
 
 module Fibo.ClipboardWatcher;
+import Fibo.ConcurrentBoundedMap;
+import Fibo.FileInfo;
 
 namespace fibo
 {
@@ -60,6 +63,13 @@ namespace fibo
 		{
 		case WM_CLIPBOARDUPDATE:
 			SPDLOG_INFO("Clipboard is updated!");
+			{
+				std::string key = "hello world";
+				auto tmp = fibo::FileInfo("hello world data");
+				clpData_.pushBack(key, tmp);
+				auto tmp2 = clpData_.find(key);
+				int xx = 0;
+			}
 			break;
 
 		case WM_DESTROY:

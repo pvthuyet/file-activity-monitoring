@@ -2,10 +2,13 @@ module;
 
 #include <Windows.h>
 #include <memory>
+#include <string>
 
 export module Fibo.ClipboardWatcher;
 
 import Fibo.MessageEvent;
+import Fibo.ConcurrentBoundedMap;
+import Fibo.FileInfo;
 
 namespace fibo
 {
@@ -31,5 +34,6 @@ namespace fibo
 
 	private:
 		std::unique_ptr<MessageEvent> msgEvent_ = nullptr;
+		fibo::Con::BoundedMap<std::string, FileInfo> clpData_;
 	};
 }

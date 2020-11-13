@@ -167,6 +167,7 @@
     <ClCompile Include="application_manager.cpp" />
     <ClCompile Include="application_manager.ixx" />
     <ClCompile Include="FileWatcher.cpp" />
+    <ClCompile Include="file_info.ixx" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
