@@ -62,18 +62,18 @@ namespace fibo
 		switch (msg)
 		{
 		case WM_CLIPBOARDUPDATE:
-			//SPDLOG_INFO("Clipboard is updated!");
+			SPDLOG_INFO("Clipboard is updated!");
 			{
+				using namespace std::string_literals;
 				static int n = 0;
 				std::string key = "key " + std::to_string(n);
-				auto tmp = fibo::FileInfo("hello to " + std::to_string(n++));
+				auto tmp = fibo::FileInfo("hello to "s + std::to_string(n++));
 				clpData_[key] = tmp;
 				SPDLOG_INFO("operator[{}]: {}", key, clpData_[key].toString());
 
 				for (int i = 0; i < 2; ++i) {
 					auto found = clpData_.find(key);
 					if (found) {
-						//SPDLOG_INFO("find[{}]: {}", key, found->get().toString());
 						SPDLOG_INFO("find[{}]: {}", key, (*found).toString());
 					}
 					else {

@@ -14,6 +14,7 @@ namespace fibo
 {
 	export class ClipboardWatcher final : public WindowProcedure
 	{
+		using CircleMap = fibo::Con::CircleMap<std::string, FileInfo, 1024>;
 	public:
 		ClipboardWatcher() noexcept = default;
 		virtual ~ClipboardWatcher() noexcept;
@@ -34,6 +35,6 @@ namespace fibo
 
 	private:
 		std::unique_ptr<MessageEvent> msgEvent_ = nullptr;
-		fibo::Con::CircleMap<std::string, FileInfo> clpData_;
+		CircleMap clpData_;
 	};
 }
