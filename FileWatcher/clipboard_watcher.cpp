@@ -6,7 +6,7 @@ module;
 #include "logger_define.h"
 
 module Fibo.ClipboardWatcher;
-import Fibo.ConcurrentBoundedMap;
+import Fibo.ConcurrentCircleMap;
 import Fibo.FileInfo;
 
 namespace fibo
@@ -62,13 +62,25 @@ namespace fibo
 		switch (msg)
 		{
 		case WM_CLIPBOARDUPDATE:
-			SPDLOG_INFO("Clipboard is updated!");
+			//SPDLOG_INFO("Clipboard is updated!");
 			{
-				std::string key = "hello world";
-				auto tmp = fibo::FileInfo("hello world data");
-				clpData_.pushBack(key, tmp);
-				auto tmp2 = clpData_.find(key);
-				int xx = 0;
+				static int n = 0;
+				std::string key = "key " + std::to_string(n);
+				auto tmp = fibo::FileInfo("hello to " + std::to_string(n++));
+				clpData_[key] = tmp;
+				SPDLOG_INFO("operator[{}]: {}", key, clpData_[key].toString());
+
+				for (int i = 0; i < 2; ++i) {
+					auto found = clpData_.find(key);
+					if (found) {
+						//SPDLOG_INFO("find[{}]: {}", key, found->get().toString());
+						SPDLOG_INFO("find[{}]: {}", key, (*found).toString());
+					}
+					else {
+						SPDLOG_INFO("find[{}]: not found", key);
+					}
+					key = "abc";
+				}
 			}
 			break;
 

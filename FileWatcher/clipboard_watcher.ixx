@@ -7,7 +7,7 @@ module;
 export module Fibo.ClipboardWatcher;
 
 import Fibo.MessageEvent;
-import Fibo.ConcurrentBoundedMap;
+import Fibo.ConcurrentCircleMap;
 import Fibo.FileInfo;
 
 namespace fibo
@@ -34,6 +34,6 @@ namespace fibo
 
 	private:
 		std::unique_ptr<MessageEvent> msgEvent_ = nullptr;
-		fibo::Con::BoundedMap<std::string, FileInfo> clpData_;
+		fibo::Con::CircleMap<std::string, FileInfo> clpData_;
 	};
 }
