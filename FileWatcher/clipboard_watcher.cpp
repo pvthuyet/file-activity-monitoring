@@ -67,6 +67,7 @@ namespace fibo
 				using namespace std::string_literals;
 				static int n = 0;
 				std::string key = "key " + std::to_string(n);
+				auto key2 = key;
 				auto tmp = fibo::FileInfo("hello to "s + std::to_string(n++));
 				clpData_[key] = tmp;
 				SPDLOG_INFO("operator[{}]: {}", key, clpData_[key].toString());
@@ -80,6 +81,17 @@ namespace fibo
 						SPDLOG_INFO("find[{}]: not found", key);
 					}
 					key = "abc";
+				}
+
+				auto found2 = clpData_.find_if([&key2](auto const& keyItem, auto const& item) {
+					return keyItem == key2;
+					});
+
+				if (found2) {
+					SPDLOG_INFO("find_if[{}]: {}", key2, (*found2).toString());
+				}
+				else {
+					SPDLOG_INFO("find_if[{}]: not found", key);
 				}
 			}
 			break;
