@@ -8,6 +8,7 @@ module;
 module Fibo.ClipboardWatcher;
 import Fibo.ConcurrentCircleMap;
 import Fibo.FileInfo;
+import Fibo.Clipboard;
 
 namespace fibo
 {
@@ -57,7 +58,14 @@ namespace fibo
 		switch (msg)
 		{
 		case WM_CLIPBOARDUPDATE:
-			SPDLOG_INFO("Clipboard is updated!");
+			{
+				auto files = fibo::Clipboard::getCopyingFiles();
+				for (auto const& f : files) {
+					clpData_[f] = WFileInfo{ f };
+					SPDLOG_DEBUG(f);
+				}
+				SPDLOG_DEBUG("Number of element in map: {}", clpData_.size());
+			}
 			break;
 
 		case WM_DESTROY:

@@ -3,38 +3,34 @@ module;
 #include <string>
 #include <compare>
 
+import Fibo.Concept;
+
 export module Fibo.FileInfo;
 
 namespace fibo
 {
-	export class FileInfo
+	template<Stringable TString>
+	class FileInfoBase
 	{
+		using string_type = tstring_t<TString>;
 	public:
-		FileInfo() = default;
-		FileInfo(std::string_view);
+		FileInfoBase() noexcept(std::is_nothrow_default_constructible_v<string_type>) = default;
 
-		bool operator==(FileInfo const& other) const noexcept
+		template<Stringable T>
+		FileInfoBase(T&& s) : filePath_{ std::forward<T>(s) }
+		{}
+
+		bool operator==(FileInfoBase const& other) const noexcept
 		{
 			return filePath_ == other.filePath_;
 		}
-		auto operator<=>(FileInfo const& other) const noexcept = default;
-
-		std::string toString() const;
+		auto operator<=>(FileInfoBase const& other) const noexcept = default;
 
 	private:
-		std::string filePath_{};
+		string_type filePath_{};
 		size_t size_{0};
 	};
 
-	FileInfo::FileInfo(std::string_view path) :
-		FileInfo()
-	{
-		filePath_ = path;
-		size_ = 1;
-	}
-
-	std::string FileInfo::toString() const
-	{
-		return "file path: " + filePath_ + ", size: " + std::to_string(size_);
-	}
+	export using FileInfo = FileInfoBase<std::string>;
+	export using WFileInfo = FileInfoBase<std::wstring>;
 }

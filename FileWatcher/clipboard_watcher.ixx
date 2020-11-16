@@ -15,7 +15,7 @@ namespace fibo
 	// This class should be global because we only have one clipboard in OS
 	export class ClipboardWatcher final : public WindowProcedure
 	{
-		using CircleMap = fibo::Con::CircleMap<std::string, FileInfo, 1024>;
+		using CircleMap = fibo::Con::CircleMap<std::wstring, WFileInfo, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();
