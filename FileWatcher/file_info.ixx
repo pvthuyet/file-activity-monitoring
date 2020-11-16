@@ -1,6 +1,7 @@
 module;
 
 #include <string>
+#include <compare>
 
 export module Fibo.FileInfo;
 
@@ -11,6 +12,12 @@ namespace fibo
 	public:
 		FileInfo() = default;
 		FileInfo(std::string_view);
+
+		bool operator==(FileInfo const& other) const noexcept
+		{
+			return filePath_ == other.filePath_;
+		}
+		auto operator<=>(FileInfo const& other) const noexcept = default;
 
 		std::string toString() const;
 

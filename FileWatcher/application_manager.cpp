@@ -12,17 +12,9 @@ import Fibo.ClipboardWatcher;
 
 namespace fibo
 {
-	ApplicationManager::ApplicationManager() :
-		clipboard_{ nullptr }
+	ApplicationManager::ApplicationManager()
 	{
 		initialize();
-	}
-
-	ApplicationManager::~ApplicationManager() noexcept
-	{
-		if (clipboard_) {
-			clipboard_->stop();
-		}
 	}
 
 	ApplicationManager& ApplicationManager::getInst()
@@ -41,11 +33,7 @@ namespace fibo
 	{
 		try
 		{
-			if (not clipboard_)
-			{
-				clipboard_ = std::make_unique<ClipboardWatcher>();
-				clipboard_->start();
-			}
+			ClipboardWatcher::getInst().start();
 		}
 		catch (std::exception const& ex)
 		{
