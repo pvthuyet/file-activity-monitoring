@@ -1,5 +1,6 @@
 module;
 
+#include "define.h"
 #include <Windows.h>
 #include <memory>
 #include <string>
@@ -15,7 +16,7 @@ namespace fibo
 	// This class should be global because we only have one clipboard in OS
 	export class ClipboardWatcher final : public WindowProcedure
 	{
-		using CircleMap = fibo::Con::CircleMap<std::wstring, WFileInfo, 1024>;
+		using CircleMap = fibo::Con::CircleMap<fistdpmr::wstring, WFileInfo, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();
@@ -27,7 +28,7 @@ namespace fibo
 		ClipboardWatcher& operator=(ClipboardWatcher const&) = delete;
 
 	private:
-		ClipboardWatcher() noexcept(std::is_nothrow_destructible_v<CircleMap>) = default;
+		ClipboardWatcher() noexcept(fistd::is_nothrow_destructible_v<CircleMap>) = default;
 
 	private:
 		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;

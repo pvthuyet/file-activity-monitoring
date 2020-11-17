@@ -4,6 +4,7 @@ module;
 #include <memory>
 #include <concurrent_vector.h>
 #include "logger_define.h"
+#include "define.h"
 
 module Fibo.ClipboardWatcher;
 import Fibo.ConcurrentCircleMap;
@@ -28,15 +29,15 @@ namespace fibo
 	void ClipboardWatcher::start()
 	{
 		if (not msgEvent_) {
-			msgEvent_ = std::make_unique<MessageEvent>(this);
+			msgEvent_ = fistd::make_unique<MessageEvent>(this);
 			msgEvent_->registerWndClass(L"clipboard_class");
 			auto succ = ::AddClipboardFormatListener(msgEvent_->getWndHandle());
 			if (not succ) {
 				msgEvent_ = nullptr;
-				throw std::system_error(
+				throw fistd::system_error(
 					::GetLastError(),
-					std::system_category(),
-					std::string{ "Failed to call AddClipboardFormatListener. " } + __FILE__ + std::to_string(__LINE__));
+					fistd::system_category(),
+					fistd::string{ "Failed to call AddClipboardFormatListener. " } + __FILE__ + std::to_string(__LINE__));
 			}
 		}
 	}

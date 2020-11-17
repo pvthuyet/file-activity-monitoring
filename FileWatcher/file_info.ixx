@@ -2,6 +2,7 @@ module;
 
 #include <string>
 #include <compare>
+#include "define.h"
 
 import Fibo.Concept;
 
@@ -31,6 +32,6 @@ namespace fibo
 		size_t size_{0};
 	};
 
-	export using FileInfo = FileInfoBase<std::string>;
-	export using WFileInfo = FileInfoBase<std::wstring>;
+	export using FileInfo = FileInfoBase<fistdpmr::string>;
+	export using WFileInfo = FileInfoBase<fistdpmr::wstring>;
 }
