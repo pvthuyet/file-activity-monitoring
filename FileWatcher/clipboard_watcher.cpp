@@ -4,7 +4,7 @@ module;
 #include <memory>
 #include <concurrent_vector.h>
 #include "logger_define.h"
-#include "define.h"
+#include "fibo_define.h"
 
 module Fibo.ClipboardWatcher;
 import Fibo.ConcurrentCircleMap;

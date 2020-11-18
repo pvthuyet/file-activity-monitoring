@@ -2,7 +2,7 @@ module;
 
 #include <string>
 #include <compare>
-#include "define.h"
+#include "fibo_define.h"
 
 import Fibo.Concept;
 
