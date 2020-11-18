@@ -28,12 +28,12 @@ namespace fibo
 
 	void ClipboardWatcher::start()
 	{
-		if (not msgEvent_) {
-			msgEvent_ = fistd::make_unique<MessageEvent>(this);
-			msgEvent_->registerWndClass(L"clipboard_class");
-			auto succ = ::AddClipboardFormatListener(msgEvent_->getWndHandle());
+		if (not mMsgEvent) {
+			mMsgEvent = fistd::make_unique<MessageEvent>(this);
+			mMsgEvent->registerWndClass(L"clipboard_class");
+			auto succ = ::AddClipboardFormatListener(mMsgEvent->getWndHandle());
 			if (not succ) {
-				msgEvent_ = nullptr;
+				mMsgEvent = nullptr;
 				throw fistd::system_error(
 					::GetLastError(),
 					fistd::system_category(),
@@ -44,13 +44,13 @@ namespace fibo
 
 	void ClipboardWatcher::stop() noexcept
 	{
-		if (msgEvent_) {
-			auto succ = ::RemoveClipboardFormatListener(msgEvent_->getWndHandle());
+		if (mMsgEvent) {
+			auto succ = ::RemoveClipboardFormatListener(mMsgEvent->getWndHandle());
 			if (not succ) {
 				SPDLOG_ERROR("Failed to call RemoveClipboardFormatListener");
 			}
-			msgEvent_->unregisterWndClass();
-			msgEvent_ = nullptr;
+			mMsgEvent->unregisterWndClass();
+			mMsgEvent = nullptr;
 		}
 	}
 
@@ -61,11 +61,11 @@ namespace fibo
 		case WM_CLIPBOARDUPDATE:
 			{
 				auto files = fibo::Clipboard::getCopyingFiles();
-				for (auto const& f : files) {
-					clpData_[f] = WFileInfo{ f };
-					SPDLOG_DEBUG(f);
+				for (auto const& p : files) {
+					mClpData[p] = WFileInfo{ p };
+					SPDLOG_DEBUG(p);
 				}
-				SPDLOG_DEBUG("Number of element in map: {}", clpData_.size());
+				SPDLOG_DEBUG("Number of element in map: {}", mClpData.size());
 			}
 			break;
 

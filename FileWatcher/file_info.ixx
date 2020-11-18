@@ -18,18 +18,18 @@ namespace fibo
 		FileInfoBase() noexcept(std::is_nothrow_default_constructible_v<string_type>) = default;
 
 		template<Stringable T>
-		FileInfoBase(T&& s) : filePath_{ std::forward<T>(s) }
+		FileInfoBase(T&& s) : mFilePath{ std::forward<T>(s) }
 		{}
 
 		bool operator==(FileInfoBase const& other) const noexcept
 		{
-			return filePath_ == other.filePath_;
+			return mFilePath == other.mFilePath;
 		}
 		auto operator<=>(FileInfoBase const& other) const noexcept = default;
 
 	private:
-		string_type filePath_{};
-		size_t size_{0};
+		string_type mFilePath{};
+		size_t mSize{0};
 	};
 
 	export using FileInfo = FileInfoBase<fistdpmr::string>;

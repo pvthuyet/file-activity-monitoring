@@ -34,7 +34,7 @@ namespace fibo
 		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;
 
 	private:
-		std::unique_ptr<MessageEvent> msgEvent_{ nullptr };
-		CircleMap clpData_{};
+		std::unique_ptr<MessageEvent> mMsgEvent{ nullptr };
+		CircleMap mClpData{};
 	};
 }
