@@ -29,15 +29,15 @@ namespace fibo
 	void ClipboardWatcher::start()
 	{
 		if (not mMsgEvent) {
-			mMsgEvent = fistd::make_unique<message_event>(this);
+			mMsgEvent = std::make_unique<message_event>(this);
 			mMsgEvent->register_window_class(L"clipboard_class");
 			auto succ = ::AddClipboardFormatListener(mMsgEvent->get_handle());
 			if (not succ) {
 				mMsgEvent = nullptr;
-				throw fistd::system_error(
+				throw std::system_error(
 					::GetLastError(),
-					fistd::system_category(),
-					fistd::string{ "Failed to call AddClipboardFormatListener. " } + __FILE__ + std::to_string(__LINE__));
+					std::system_category(),
+					std::string{ "Failed to call AddClipboardFormatListener. " } + __FILE__ + std::to_string(__LINE__));
 			}
 		}
 	}

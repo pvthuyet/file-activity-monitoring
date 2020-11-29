@@ -32,6 +32,6 @@ namespace fibo
 		size_t mSize{0};
 	};
 
-	export using FileInfo = FileInfoBase<fistdpmr::string>;
-	export using WFileInfo = FileInfoBase<fistdpmr::wstring>;
+	export using FileInfo = FileInfoBase<fipmr::string>;
+	export using WFileInfo = FileInfoBase<fipmr::wstring>;
 }

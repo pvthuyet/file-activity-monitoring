@@ -16,7 +16,7 @@ namespace fibo
 	// This class should be global because we only have one clipboard in OS
 	export class ClipboardWatcher final : public window_procedure
 	{
-		using CircleMap = fibo::Con::circle_map<fistdpmr::wstring, WFileInfo, 1024>;
+		using CircleMap = fibo::Con::circle_map<fipmr::wstring, WFileInfo, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();
@@ -28,7 +28,7 @@ namespace fibo
 		ClipboardWatcher& operator=(ClipboardWatcher const&) = delete;
 
 	private:
-		ClipboardWatcher() noexcept(fistd::is_nothrow_destructible_v<CircleMap>) = default;
+		ClipboardWatcher() noexcept(std::is_nothrow_destructible_v<CircleMap>) = default;
 
 	private:
 		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;
