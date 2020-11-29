@@ -14,9 +14,9 @@ import Fibo.FileInfo;
 namespace fibo
 {
 	// This class should be global because we only have one clipboard in OS
-	export class ClipboardWatcher final : public WindowProcedure
+	export class ClipboardWatcher final : public window_procedure
 	{
-		using CircleMap = fibo::Con::CircleMap<fistdpmr::wstring, WFileInfo, 1024>;
+		using CircleMap = fibo::Con::circle_map<fistdpmr::wstring, WFileInfo, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();
@@ -34,7 +34,7 @@ namespace fibo
 		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;
 
 	private:
-		std::unique_ptr<MessageEvent> mMsgEvent{ nullptr };
+		std::unique_ptr<message_event> mMsgEvent{ nullptr };
 		CircleMap mClpData{};
 	};
 }

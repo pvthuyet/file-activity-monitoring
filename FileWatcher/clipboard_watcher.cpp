@@ -29,9 +29,9 @@ namespace fibo
 	void ClipboardWatcher::start()
 	{
 		if (not mMsgEvent) {
-			mMsgEvent = fistd::make_unique<MessageEvent>(this);
-			mMsgEvent->registerWndClass(L"clipboard_class");
-			auto succ = ::AddClipboardFormatListener(mMsgEvent->getWndHandle());
+			mMsgEvent = fistd::make_unique<message_event>(this);
+			mMsgEvent->register_window_class(L"clipboard_class");
+			auto succ = ::AddClipboardFormatListener(mMsgEvent->get_handle());
 			if (not succ) {
 				mMsgEvent = nullptr;
 				throw fistd::system_error(
@@ -45,11 +45,11 @@ namespace fibo
 	void ClipboardWatcher::stop() noexcept
 	{
 		if (mMsgEvent) {
-			auto succ = ::RemoveClipboardFormatListener(mMsgEvent->getWndHandle());
+			auto succ = ::RemoveClipboardFormatListener(mMsgEvent->get_handle());
 			if (not succ) {
 				SPDLOG_ERROR("Failed to call RemoveClipboardFormatListener");
 			}
-			mMsgEvent->unregisterWndClass();
+			mMsgEvent->unregister_window_class();
 			mMsgEvent = nullptr;
 		}
 	}
