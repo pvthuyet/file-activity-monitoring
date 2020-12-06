@@ -61,9 +61,8 @@ namespace saigon
 		case WM_CLIPBOARDUPDATE:
 			{
 				auto files = saigon::Clipboard::getCopyingFiles();
-				for (auto const& p : files) {
-					mClpData[p] = FileInfo{ p };
-					SPDLOG_DEBUG(p);
+				for (auto& p : files) {
+					mClpData[p] = FileInfo{ std::move(p) };
 				}
 				SPDLOG_DEBUG("Number of element in map: {}", mClpData.size());
 			}
