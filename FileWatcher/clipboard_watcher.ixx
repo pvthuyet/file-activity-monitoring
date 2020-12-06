@@ -31,7 +31,7 @@ namespace saigon
 		ClipboardWatcher() noexcept(std::is_nothrow_destructible_v<CircleMap>) = default;
 
 	private:
-		virtual LRESULT procedure(HWND, UINT, WPARAM, LPARAM) override final;
+		LRESULT do_procedure(HWND, UINT, WPARAM, LPARAM) final;
 
 	private:
 		std::unique_ptr<message_event> mMsgEvent{ nullptr };

@@ -54,15 +54,15 @@ namespace saigon
 		}
 	}
 
-	LRESULT ClipboardWatcher::procedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+	LRESULT ClipboardWatcher::do_procedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
 		switch (msg)
 		{
 		case WM_CLIPBOARDUPDATE:
 			{
 				auto files = saigon::Clipboard::getCopyingFiles();
-				for (auto& p : files) {
-					mClpData[p] = FileInfo{ std::move(p) };
+				for (auto const& p : files) { //++ TODO not re-use p
+					mClpData[p] = FileInfo{ p };
 				}
 				SPDLOG_DEBUG("Number of element in map: {}", mClpData.size());
 			}
