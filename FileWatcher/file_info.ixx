@@ -15,18 +15,21 @@ namespace saigon
 	{
 	public:
 		FileInfo() = default;
+		template<Stringable T> FileInfo(T&& s);
 
-		template<Stringable T>
-		FileInfo(T&& s) : mPath{ std::forward<T>(s) }
-		{}
-
-		bool operator==(FileInfo const& other) const noexcept
-		{
-			return mPath == other.mPath;
-		}
+		bool operator==(FileInfo const& other) const noexcept;
 		auto operator<=>(FileInfo const& other) const noexcept = default;
 
 	private:
 		std::filesystem::path mPath;
 	};
+
+	template<Stringable T>
+	FileInfo::FileInfo(T&& s) : mPath{ std::forward<T>(s) }
+	{}
+
+	bool FileInfo::operator==(FileInfo const& other) const noexcept
+	{
+		return mPath == other.mPath;
+	}
 }
