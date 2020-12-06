@@ -2,6 +2,7 @@ module;
 
 #include <string>
 #include <compare>
+#include <filesystem>
 #include "defines.h"
 
 export module Saigon.FileInfo;
@@ -10,28 +11,22 @@ import Saigon.Concepts;
 
 namespace saigon
 {
-	template<Stringable TString>
-	class FileInfoBase
+	export class FileInfo
 	{
-		using string_type = tstring_t<TString>;
 	public:
-		FileInfoBase() noexcept(std::is_nothrow_default_constructible_v<string_type>) = default;
+		FileInfo() = default;
 
 		template<Stringable T>
-		FileInfoBase(T&& s) : mFilePath{ std::forward<T>(s) }
+		FileInfo(T&& s) : mPath{ std::forward<T>(s) }
 		{}
 
-		bool operator==(FileInfoBase const& other) const noexcept
+		bool operator==(FileInfo const& other) const noexcept
 		{
-			return mFilePath == other.mFilePath;
+			return mPath == other.mPath;
 		}
-		auto operator<=>(FileInfoBase const& other) const noexcept = default;
+		auto operator<=>(FileInfo const& other) const noexcept = default;
 
 	private:
-		string_type mFilePath{};
-		size_t mSize{0};
+		std::filesystem::path mPath;
 	};
-
-	export using FileInfo = FileInfoBase<fipmr::string>;
-	export using WFileInfo = FileInfoBase<fipmr::wstring>;
 }

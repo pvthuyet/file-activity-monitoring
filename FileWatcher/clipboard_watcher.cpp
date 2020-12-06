@@ -62,7 +62,7 @@ namespace saigon
 			{
 				auto files = saigon::Clipboard::getCopyingFiles();
 				for (auto const& p : files) {
-					mClpData[p] = WFileInfo{ p };
+					mClpData[p] = FileInfo{ p };
 					SPDLOG_DEBUG(p);
 				}
 				SPDLOG_DEBUG("Number of element in map: {}", mClpData.size());
