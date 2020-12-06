@@ -6,7 +6,7 @@
 
 #define MAX_LOADSTRING 100
 
-import Fibo.ApplicationManager;
+import Saigon.ApplicationManager;
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -28,7 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     //++ TODO: thuyet ApplicationManager
-    fibo::ApplicationManager::getInst().run();
+    saigon::ApplicationManager::getInst().run();
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);

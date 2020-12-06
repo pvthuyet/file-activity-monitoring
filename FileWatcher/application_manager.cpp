@@ -3,14 +3,14 @@ module;
 #include <memory>
 #include "logger_define.h"
 
-module Fibo.ApplicationManager;
+module Saigon.ApplicationManager;
 
-import Fibo.Logger; //++ TODO Can't use logger and fmt/format together
-import Fibo.Minidump;
+import Saigon.Logger; //++ TODO Can't use logger and fmt/format together
+import Saigon.Minidump;
 
-import Fibo.ClipboardWatcher;
+import Saigon.ClipboardWatcher;
 
-namespace fibo
+namespace saigon
 {
 	ApplicationManager::ApplicationManager()
 	{

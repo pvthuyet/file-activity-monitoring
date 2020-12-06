@@ -2,13 +2,13 @@ module;
 
 #include <string>
 #include <compare>
-#include "fibo_define.h"
+#include "defines.h"
 
-import Fibo.Concept;
+export module Saigon.FileInfo;
 
-export module Fibo.FileInfo;
+import Saigon.Concepts;
 
-namespace fibo
+namespace saigon
 {
 	template<Stringable TString>
 	class FileInfoBase

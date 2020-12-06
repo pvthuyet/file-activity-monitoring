@@ -1,22 +1,22 @@
 module;
 
-#include "fibo_define.h"
+#include "defines.h"
 #include <Windows.h>
 #include <memory>
 #include <string>
 
-export module Fibo.ClipboardWatcher;
+export module Saigon.ClipboardWatcher;
 
-import Fibo.MessageEvent;
-import Fibo.ConcurrentCircleMap;
-import Fibo.FileInfo;
+import Saigon.MessageEvent;
+import Saigon.ConcurrentCircleMap;
+import Saigon.FileInfo;
 
-namespace fibo
+namespace saigon
 {
 	// This class should be global because we only have one clipboard in OS
 	export class ClipboardWatcher final : public window_procedure
 	{
-		using CircleMap = fibo::Con::circle_map<fipmr::wstring, WFileInfo, 1024>;
+		using CircleMap = saigon::Con::circle_map<fipmr::wstring, WFileInfo, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();

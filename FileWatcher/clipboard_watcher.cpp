@@ -4,14 +4,14 @@ module;
 #include <memory>
 #include <concurrent_vector.h>
 #include "logger_define.h"
-#include "fibo_define.h"
+#include "defines.h"
 
-module Fibo.ClipboardWatcher;
-import Fibo.ConcurrentCircleMap;
-import Fibo.FileInfo;
-import Fibo.Clipboard;
+module Saigon.ClipboardWatcher;
+import Saigon.ConcurrentCircleMap;
+import Saigon.FileInfo;
+import Saigon.Clipboard;
 
-namespace fibo
+namespace saigon
 {
 	ClipboardWatcher::~ClipboardWatcher() noexcept
 	{
@@ -60,7 +60,7 @@ namespace fibo
 		{
 		case WM_CLIPBOARDUPDATE:
 			{
-				auto files = fibo::Clipboard::getCopyingFiles();
+				auto files = saigon::Clipboard::getCopyingFiles();
 				for (auto const& p : files) {
 					mClpData[p] = WFileInfo{ p };
 					SPDLOG_DEBUG(p);

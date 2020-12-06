@@ -1,8 +1,8 @@
 module;
 
-export module Fibo.ApplicationManager;
+export module Saigon.ApplicationManager;
 
-namespace fibo
+namespace saigon
 {
 	export class ApplicationManager
 	{
