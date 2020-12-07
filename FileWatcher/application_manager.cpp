@@ -25,8 +25,8 @@ namespace saigon
 
 	void ApplicationManager::initialize()
 	{
-		MiniDump::monitoring("");
-		Logger::createLogger();
+		dump::monitoring("");
+		logger::create_logger();
 	}
 
 	void ApplicationManager::run()

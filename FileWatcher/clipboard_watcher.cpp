@@ -60,7 +60,7 @@ namespace saigon
 		{
 		case WM_CLIPBOARDUPDATE:
 			{
-				auto files = saigon::Clipboard::getCopyingFiles();
+				auto files = saigon::clipboard::getCopyingFiles();
 				for (auto const& p : files) { //++ TODO not re-use p
 					mClpData[p] = FileInfo{ p };
 				}

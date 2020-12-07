@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Observation">
+      <UniqueIdentifier>{29086632-f0c5-4e82-a7bd-fca459733639}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="file_info.ixx">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\observer.ixx">
+      <Filter>Observation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
