@@ -169,6 +169,7 @@
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_info.ixx" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="observation\observer.cpp" />
     <ClCompile Include="observation\observer.ixx" />
   </ItemGroup>
   <ItemGroup>

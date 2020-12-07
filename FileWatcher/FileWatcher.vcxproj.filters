@@ -56,6 +56,9 @@
     <ClCompile Include="observation\observer.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
+    <ClCompile Include="observation\observer.cpp">
+      <Filter>Observation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
