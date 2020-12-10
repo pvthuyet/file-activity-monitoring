@@ -20,6 +20,8 @@ namespace saigon::observation
 		[[nodiscard]] observer* getObserver() const;
 
 		// The dwSize is the actual number of bytes sent to the APC.
+		void requestTermination();
+		[[nodiscard]] BOOL openDirectory();
 		void backupBuffer(DWORD dwSize);
 		BOOL beginRead();
 		void processNotification();
@@ -39,7 +41,7 @@ namespace saigon::observation
 		std::wstring	mDirectory;
 
 		// Result of calling CreateFile().
-		HANDLE		mHdlDirectory;
+		HANDLE		mHdlDirectory{ INVALID_HANDLE_VALUE };
 
 		// Required parameter for ReadDirectoryChangesW().
 		OVERLAPPED	mOverlapped;
@@ -58,6 +60,37 @@ namespace saigon::observation
 	{
 		_ASSERT_EXPR(mObserver, "Observer is null");
 		return mObserver;
+	}
+
+	void request::requestTermination()
+	{
+		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
+			::CancelIo(mHdlDirectory);
+			::CloseHandle(mHdlDirectory);
+			mHdlDirectory = INVALID_HANDLE_VALUE;
+		}
+	}
+
+	BOOL request::openDirectory()
+	{
+		// Allow this routine to be called redundantly.
+		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
+			return TRUE;
+		}
+
+		mHdlDirectory = ::CreateFileW(
+			mDirectory.c_str(),					// pointer to the file name
+			FILE_LIST_DIRECTORY,                // access (read/write) mode
+			FILE_SHARE_READ						// share mode
+			| FILE_SHARE_WRITE
+			| FILE_SHARE_DELETE,
+			NULL,                               // security descriptor
+			OPEN_EXISTING,                      // how to create
+			FILE_FLAG_BACKUP_SEMANTICS			// file attributes
+			| FILE_FLAG_OVERLAPPED,
+			NULL);                              // file with attributes to copy
+
+		return (INVALID_HANDLE_VALUE != mHdlDirectory) ? TRUE : FALSE;
 	}
 
 	void request::backupBuffer(DWORD dwSize)
