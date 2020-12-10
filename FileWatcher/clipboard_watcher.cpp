@@ -8,7 +8,7 @@ module;
 
 module Saigon.ClipboardWatcher;
 import Saigon.ConcurrentCircleMap;
-import Saigon.FileInfo;
+import Saigon.FileNotifyInfo;
 import Saigon.Clipboard;
 
 namespace saigon
@@ -62,7 +62,7 @@ namespace saigon
 			{
 				auto files = saigon::clipboard::getCopyingFiles();
 				for (auto const& p : files) { //++ TODO not re-use p
-					mClpData[p] = FileInfo{ p };
+					mClpData[p] = file_notify_info{ p };
 				}
 				SPDLOG_DEBUG("Number of element in map: {}", mClpData.size());
 			}

@@ -7,7 +7,7 @@ export module Saigon.Observer;
 
 namespace saigon::observation
 {
-	class observer
+	export class observer
 	{
 	public:
 		static unsigned int WINAPI start_thread_proc(LPVOID arg);

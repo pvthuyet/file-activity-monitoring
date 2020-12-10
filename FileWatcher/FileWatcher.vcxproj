@@ -167,10 +167,11 @@
     <ClCompile Include="application_manager.cpp" />
     <ClCompile Include="application_manager.ixx" />
     <ClCompile Include="FileWatcher.cpp" />
-    <ClCompile Include="file_info.ixx" />
+    <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="observation\observer.cpp" />
     <ClCompile Include="observation\observer.ixx" />
+    <ClCompile Include="observation\request.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FileWatcher.rc" />

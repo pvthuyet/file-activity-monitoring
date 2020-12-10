@@ -9,14 +9,14 @@ export module Saigon.ClipboardWatcher;
 
 import Saigon.MessageEvent;
 import Saigon.ConcurrentCircleMap;
-import Saigon.FileInfo;
+import Saigon.FileNotifyInfo;
 
 namespace saigon
 {
 	// This class should be global because we only have one clipboard in OS
 	export class ClipboardWatcher final : public window_procedure
 	{
-		using CircleMap = saigon::con::circle_map<fipmr::wstring, FileInfo, 1024>;
+		using CircleMap = saigon::con::circle_map<fipmr::wstring, file_notify_info, 1024>;
 	public:
 		virtual ~ClipboardWatcher() noexcept;
 		static ClipboardWatcher& getInst();
