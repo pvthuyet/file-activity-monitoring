@@ -6,6 +6,8 @@ module;
 
 module Saigon.Observer;
 
+import Saigon.Request;
+
 namespace saigon::observation
 {
 	unsigned int WINAPI observer::start_thread_proc(LPVOID arg)
@@ -44,5 +46,32 @@ namespace saigon::observation
 			::SleepEx(INFINITE, TRUE);
 		}
 		LOGEXIT;
+	}
+
+	void observer::addDirectory(request* pBlock)
+	{
+		_ASSERTE(pBlock);
+		if (pBlock->openDirectory())
+		{
+			pBlock->getObserver()->incRequest();
+			mBlocks.push_back(pBlock);
+			pBlock->beginRead();
+		}
+		else {
+			delete pBlock;
+			pBlock = nullptr;
+		}
+	}
+
+	void observer::requestTermination()
+	{
+		mTerminated.store(true, std::memory_order::memory_order_relaxed);
+		for (DWORD i = 0; i < mBlocks.size(); ++i)
+		{
+			// Each Request object will delete itself.
+			_ASSERTE(mBlocks[i]);
+			mBlocks[i]->requestTermination();
+		}
+		mBlocks.clear();
 	}
 }

@@ -14,9 +14,20 @@ import Saigon.FileNotifyInfo;
 
 namespace saigon::observation
 {
-	class request
+	export class request
 	{
 	public:
+		request(observer* obs,
+			std::wstring_view directory,
+			DWORD filterFlags,
+			BOOL watchSubtree = TRUE,
+			DWORD size = 16384
+		);
+		~request() noexcept;
+
+		request(request const&) = delete;
+		request& operator=(request const&) = delete;
+
 		[[nodiscard]] observer* getObserver() const;
 
 		// The dwSize is the actual number of bytes sent to the APC.
@@ -55,6 +66,30 @@ namespace saigon::observation
 		// request before we process the current buffer.
 		std::vector<BYTE> mBackupBuffer;
 	};
+
+	request::request(observer* obs,
+		std::wstring_view directory,
+		DWORD filterFlags,
+		BOOL includeChildren,
+		DWORD size
+	) :
+		mObserver{obs},
+		mDirectory{directory},
+		mFilterFlags{filterFlags},
+		mIncludeChildren{includeChildren},
+		mBuffer(size)
+	{
+		::ZeroMemory(&mOverlapped, sizeof(OVERLAPPED));
+		// The hEvent member is not used when there is a completion
+		// function, so it's ok to use it to point to the object.
+		mOverlapped.hEvent = this;
+		_ASSERTE(mObserver);
+	}
+
+	request::~request() noexcept
+	{
+		_ASSERTE(INVALID_HANDLE_VALUE == mHdlDirectory);
+	}
 
 	observer* request::getObserver() const
 	{
@@ -108,7 +143,7 @@ namespace saigon::observation
 		return ::ReadDirectoryChangesW(
 			mHdlDirectory,						// handle to directory
 			&mBuffer[0],						// read results buffer
-			(DWORD) mBuffer.size(),						// length of buffer
+			(DWORD) mBuffer.size(),				// length of buffer
 			mIncludeChildren,					// monitoring option
 			mFilterFlags,						// filter conditions
 			&dwBytes,                           // bytes returned
