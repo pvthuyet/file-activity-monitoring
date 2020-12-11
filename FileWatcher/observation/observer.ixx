@@ -1,8 +1,8 @@
 module;
 
+#include <gsl/pointers>
 #include <Windows.h>
 #include <atomic>
-#include <gsl/pointers>
 #include <vector>
 
 export module Saigon.Observer;

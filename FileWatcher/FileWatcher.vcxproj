@@ -171,6 +171,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="observation\observer.cpp" />
     <ClCompile Include="observation\observer.ixx" />
+    <ClCompile Include="observation\request.cpp" />
     <ClCompile Include="observation\request.ixx" />
   </ItemGroup>
   <ItemGroup>

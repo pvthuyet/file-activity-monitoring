@@ -56,11 +56,14 @@
     <ClCompile Include="observation\observer.cpp">
       <Filter>Observation</Filter>
     </ClCompile>
-    <ClCompile Include="observation\request.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="file_notify_info.ixx">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\request.cpp">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\request.ixx">
+      <Filter>Observation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
