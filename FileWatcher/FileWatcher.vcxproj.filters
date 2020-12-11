@@ -50,12 +50,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="observation\observer.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\observer.cpp">
-      <Filter>Observation</Filter>
-    </ClCompile>
     <ClCompile Include="file_notify_info.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,6 +57,15 @@
       <Filter>Observation</Filter>
     </ClCompile>
     <ClCompile Include="observation\request.ixx">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\observer_impl.cpp">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\observer_impl.ixx">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\iobserver.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
   </ItemGroup>

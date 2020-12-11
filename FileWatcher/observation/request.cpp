@@ -7,14 +7,12 @@ module;
 
 #pragma comment(lib, "Shlwapi")
 
-import Saigon.Observer;
-import Saigon.FileNotifyInfo;
-
 module Saigon.Request;
 
+import Saigon.FileNotifyInfo;
 namespace saigon::observation
 {
-	request::request(observer* obs,
+	request::request(iobserver* obs,
 		std::wstring_view directory,
 		DWORD filterFlags,
 		BOOL includeChildren,
@@ -38,13 +36,13 @@ namespace saigon::observation
 		_ASSERTE(INVALID_HANDLE_VALUE == mHdlDirectory);
 	}
 
-	observer* request::getObserver() const
+	iobserver* request::get_observer() const
 	{
 		_ASSERT_EXPR(mObserver, "Observer is null");
 		return mObserver;
 	}
 
-	void request::requestTermination()
+	void request::request_termination()
 	{
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
 			::CancelIo(mHdlDirectory);
@@ -53,7 +51,7 @@ namespace saigon::observation
 		}
 	}
 
-	BOOL request::openDirectory()
+	BOOL request::open_directory()
 	{
 		// Allow this routine to be called redundantly.
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
@@ -75,14 +73,14 @@ namespace saigon::observation
 		return (INVALID_HANDLE_VALUE != mHdlDirectory) ? TRUE : FALSE;
 	}
 
-	void request::backupBuffer(DWORD dwSize)
+	void request::backup_buffer(DWORD dwSize)
 	{
 		// We could just swap back and forth between the two
 		// buffers, but this code is easier to understand and debug.
 		memcpy(&mBackupBuffer[0], &mBuffer[0], dwSize);
 	}
 
-	BOOL request::beginRead()
+	BOOL request::begin_read()
 	{
 		DWORD dwBytes = 0;
 
@@ -95,10 +93,10 @@ namespace saigon::observation
 			mFilterFlags,						// filter conditions
 			&dwBytes,                           // bytes returned
 			&mOverlapped,						// overlapped buffer
-			&notificationCompletion);           // completion routine
+			&notification_completion);           // completion routine
 	}
 
-	void request::processNotification()
+	void request::process_notification()
 	{
 		BYTE* pBase = mBackupBuffer.data();
 
@@ -131,7 +129,7 @@ namespace saigon::observation
 
 			saigon::file_notify_info info(wsFileName, fni.Action);
 			//if (!ignoreFile(info)) {
-				//mMonitorServer->getDirectoryMonitor()->push(std::move(info));
+				//get_observer()->getDirectoryMonitor()->push(std::move(info));
 			//}
 
 			if (!fni.NextEntryOffset) {
@@ -141,13 +139,13 @@ namespace saigon::observation
 		}
 	}
 
-	VOID CALLBACK request::notificationCompletion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
+	VOID CALLBACK request::notification_completion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
 	{
 		request* pBlock = (request*)lpOverlapped->hEvent;
 
 		if (dwErrorCode == ERROR_OPERATION_ABORTED)
 		{
-			pBlock->getObserver()->decRequest();
+			pBlock->get_observer()->dec_request();
 			delete pBlock;
 			return;
 		}
@@ -160,13 +158,13 @@ namespace saigon::observation
 		//	return;
 		//}
 
-		pBlock->backupBuffer(dwNumberOfBytesTransfered);
+		pBlock->backup_buffer(dwNumberOfBytesTransfered);
 
 		// Get the new read issued as fast as possible. The documentation
 		// says that the original OVERLAPPED structure will not be used
 		// again once the completion routine is called.
-		pBlock->beginRead();
+		pBlock->begin_read();
 
-		pBlock->processNotification();
+		pBlock->process_notification();
 	}
 }

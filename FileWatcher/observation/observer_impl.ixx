@@ -5,24 +5,27 @@ module;
 #include <atomic>
 #include <vector>
 
-export module Saigon.Observer;
+export module Saigon.ObserverImpl;
+
+import Saigon.IObserver;
+import Saigon.Request;
 
 namespace saigon::observation
 {
-	class request;
-	export class observer
+	export class observer_impl final : public iobserver
 	{
 	public:
+		~observer_impl() noexcept override = default;
 		static unsigned int WINAPI start_thread_proc(LPVOID arg);
-		unsigned int incRequest();
-		unsigned int decRequest();
+		unsigned int inc_request() final;
+		unsigned int dec_request() final;
 
 	private:
 		[[nodiscard]] bool terminated() const;
 		[[nodiscard]] bool empty_request() const;
 		void run();
-		void addDirectory(request* pBlock);
-		void requestTermination();
+		void add_directory(request* pBlock);
+		void request_termination();
 
 	private:
 		std::atomic_bool mTerminated{};

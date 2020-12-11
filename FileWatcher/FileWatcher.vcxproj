@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -169,8 +169,9 @@
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="observation\observer.cpp" />
-    <ClCompile Include="observation\observer.ixx" />
+    <ClCompile Include="observation\iobserver.ixx" />
+    <ClCompile Include="observation\observer_impl.cpp" />
+    <ClCompile Include="observation\observer_impl.ixx" />
     <ClCompile Include="observation\request.cpp" />
     <ClCompile Include="observation\request.ixx" />
   </ItemGroup>
