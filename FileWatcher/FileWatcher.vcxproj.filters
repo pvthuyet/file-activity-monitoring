@@ -74,11 +74,11 @@
     <ClCompile Include="observation\idirectory_watcher.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
-    <ClCompile Include="observation\directory_watcher_base.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="observation\directory_watcher_base.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\directory_watcher_base.ixx">
+      <Filter>Observation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,8 @@
 export module Saigon.IObserver;
 
-namespace saigon
+import Saigon.IDirectoryWatcher;
+
+namespace saigon::observation
 {
 	export class iobserver
 	{
@@ -17,8 +19,15 @@ namespace saigon
 			return do_dec_request();
 		}
 
+		[[nodiscard]]
+		idirectory_watcher* get_watcher() const
+		{
+			return do_get_watcher();
+		}
+
 	private:
 		virtual unsigned int do_inc_request() = 0;
 		virtual unsigned int do_dec_request() = 0;
+		virtual idirectory_watcher* do_get_watcher() const = 0;
 	};
 }

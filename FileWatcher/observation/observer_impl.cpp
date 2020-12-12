@@ -2,12 +2,19 @@ module;
 
 #include <Windows.h>
 #include <atomic>
+#include <gsl/assert>
 #include "logger_define.h"
 
 module Saigon.ObserverImpl;
 
 namespace saigon::observation
 {
+	observer_impl::observer_impl(idirectory_watcher* dirWatcher) :
+		mDirWatcher{dirWatcher}
+	{
+		Ensures(mDirWatcher);
+	}
+
 	unsigned int observer_impl::do_inc_request()
 	{
 		return ++mOutstandingRequests;
@@ -16,6 +23,11 @@ namespace saigon::observation
 	unsigned int observer_impl::do_dec_request()
 	{
 		return --mOutstandingRequests;
+	}
+
+	idirectory_watcher* observer_impl::do_get_watcher() const
+	{
+		return mDirWatcher;
 	}
 
 	bool observer_impl::terminated() const

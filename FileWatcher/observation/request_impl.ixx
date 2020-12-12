@@ -8,18 +8,23 @@ module;
 export module Saigon.RequestImpl;
 
 import Saigon.IRequest;
+import Saigon.IObserver;
 
 namespace saigon::observation
 {
+	export struct request_param
+	{
+		DWORD mNotifyFilters{ FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME };
+		DWORD mBufferLength{ 16384 };
+		BOOL mWatchSubtree{ TRUE };
+		iobserver* mObs{ nullptr };
+		std::wstring mDir{};
+	};
+
 	export class request_impl : public irequest
 	{
 	public:
-		request_impl(iobserver* obs,
-			std::wstring_view directory,
-			DWORD filterFlags,
-			BOOL watchSubtree = TRUE,
-			DWORD size = 16384
-		);
+		request_impl(request_param);
 
 		request_impl(request_impl const&) = delete;
 		request_impl& operator=(request_impl const&) = delete;
@@ -40,12 +45,7 @@ namespace saigon::observation
 			LPOVERLAPPED lpOverlapped);					// I/O information buffer
 
 	private:
-		gsl::not_null<iobserver*> mObserver;
-
-		// Parameters from the caller for ReadDirectoryChangesW().
-		DWORD			mFilterFlags;
-		BOOL			mIncludeChildren;
-		std::wstring	mDirectory;
+		request_param mParam;
 
 		// Result of calling CreateFile().
 		HANDLE		mHdlDirectory{ INVALID_HANDLE_VALUE };

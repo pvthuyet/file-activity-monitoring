@@ -4,7 +4,7 @@ export module Saigon.IRequest;
 
 import Saigon.IObserver;
 
-namespace saigon
+namespace saigon::observation
 {
 	export class irequest
 	{

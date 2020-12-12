@@ -4,6 +4,7 @@ module;
 #include <Windows.h>
 #include <vector>
 #include <string>
+#include <gsl/assert>
 
 #pragma comment(lib, "Shlwapi")
 
@@ -13,29 +14,22 @@ import Saigon.FileNotifyInfo;
 
 namespace saigon::observation
 {
-	request_impl::request_impl(iobserver* obs,
-		std::wstring_view directory,
-		DWORD filterFlags,
-		BOOL includeChildren,
-		DWORD size
-	) :
-		mObserver{ obs },
-		mDirectory{ directory },
-		mFilterFlags{ filterFlags },
-		mIncludeChildren{ includeChildren },
-		mBuffer(size)
+	request_impl::request_impl(request_param param) :
+		mParam{param},
+		mBuffer(param.mBufferLength),
+		mBackupBuffer(param.mBufferLength)
 	{
 		::ZeroMemory(&mOverlapped, sizeof(OVERLAPPED));
 		// The hEvent member is not used when there is a completion
 		// function, so it's ok to use it to point to the object.
 		mOverlapped.hEvent = this;
-		_ASSERTE(mObserver);
+		Ensures(mParam.mObs);
 	}
 
 	iobserver* request_impl::do_get_observer() const
 	{
-		_ASSERT_EXPR(mObserver, "Observer is null");
-		return mObserver;
+		Ensures(mParam.mObs);
+		return mParam.mObs;
 	}
 
 	void request_impl::do_request_termination()
@@ -55,7 +49,7 @@ namespace saigon::observation
 		}
 
 		mHdlDirectory = ::CreateFileW(
-			mDirectory.c_str(),					// pointer to the file name
+			mParam.mDir.c_str(),					// pointer to the file name
 			FILE_LIST_DIRECTORY,                // access (read/write) mode
 			FILE_SHARE_READ						// share mode
 			| FILE_SHARE_WRITE
@@ -85,8 +79,8 @@ namespace saigon::observation
 			mHdlDirectory,						// handle to directory
 			&mBuffer[0],						// read results buffer
 			(DWORD)mBuffer.size(),				// length of buffer
-			mIncludeChildren,					// monitoring option
-			mFilterFlags,						// filter conditions
+			mParam.mWatchSubtree,					// monitoring option
+			mParam.mNotifyFilters,						// filter conditions
 			&dwBytes,                           // bytes returned
 			&mOverlapped,						// overlapped buffer
 			&notification_completion);           // completion routine
@@ -100,13 +94,13 @@ namespace saigon::observation
 			FILE_NOTIFY_INFORMATION& fni = (FILE_NOTIFY_INFORMATION&)*pBase;
 
 			std::wstring wsFileName(fni.FileName, fni.FileNameLength / sizeof(wchar_t));
-			wchar_t wcRight = mDirectory.at(mDirectory.length() - 1);
+			wchar_t wcRight = mParam.mDir.at(mParam.mDir.length() - 1);
 			// Handle a trailing backslash, such as for a root directory.
 			if (L'\\' != wcRight) {
-				wsFileName = mDirectory + L"\\" + wsFileName;
+				wsFileName = mParam.mDir + L"\\" + wsFileName;
 			}
 			else {
-				wsFileName = mDirectory + wsFileName;
+				wsFileName = mParam.mDir + wsFileName;
 			}
 
 			// If it could be a short filename, expand it.
