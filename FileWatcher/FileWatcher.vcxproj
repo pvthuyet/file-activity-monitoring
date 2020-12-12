@@ -169,6 +169,9 @@
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="observation\directory_watcher_base.cpp" />
+    <ClCompile Include="observation\directory_watcher_base.ixx" />
+    <ClCompile Include="observation\idirectory_watcher.ixx" />
     <ClCompile Include="observation\iobserver.ixx" />
     <ClCompile Include="observation\irequest.ixx" />
     <ClCompile Include="observation\observer_impl.cpp" />

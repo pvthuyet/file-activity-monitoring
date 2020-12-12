@@ -29,7 +29,7 @@ namespace saigon::observation
 		bool empty_request() const;
 		void add_directory(irequest* pBlock);
 		void request_termination();
-		friend DWORD WINAPI start_observer_thread_proc(LPVOID);
+		friend unsigned WINAPI start_observer_thread_proc(LPVOID);
 		friend VOID CALLBACK terminate_observer_proc(__in ULONG_PTR);
 		friend VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR);
 
@@ -39,7 +39,7 @@ namespace saigon::observation
 		std::vector<gsl::not_null<irequest*>> mBlocks;
 	};
 
-	static DWORD WINAPI start_observer_thread_proc(LPVOID arg);
-	static VOID CALLBACK terminate_observer_proc(__in ULONG_PTR arg);
-	static VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR arg);
+	export unsigned WINAPI start_observer_thread_proc(LPVOID);
+	export VOID CALLBACK terminate_observer_proc(__in ULONG_PTR);
+	export VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR);
 }

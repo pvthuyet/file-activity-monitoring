@@ -71,6 +71,15 @@
     <ClCompile Include="observation\request_impl.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
+    <ClCompile Include="observation\idirectory_watcher.ixx">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\directory_watcher_base.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\directory_watcher_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
