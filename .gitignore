@@ -34,3 +34,5 @@ Debug
 .vs
 *.user
 *.log
+*.ldb
+FileWatcher/file_activity_capture_manager_v2

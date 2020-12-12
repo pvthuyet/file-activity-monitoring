@@ -7,12 +7,13 @@ module;
 
 #pragma comment(lib, "Shlwapi")
 
-module Saigon.Request;
+module Saigon.RequestImpl;
 
 import Saigon.FileNotifyInfo;
+
 namespace saigon::observation
 {
-	request::request(iobserver* obs,
+	request_impl::request_impl(iobserver* obs,
 		std::wstring_view directory,
 		DWORD filterFlags,
 		BOOL includeChildren,
@@ -31,18 +32,13 @@ namespace saigon::observation
 		_ASSERTE(mObserver);
 	}
 
-	request::~request() noexcept
-	{
-		_ASSERTE(INVALID_HANDLE_VALUE == mHdlDirectory);
-	}
-
-	iobserver* request::get_observer() const
+	iobserver* request_impl::do_get_observer() const
 	{
 		_ASSERT_EXPR(mObserver, "Observer is null");
 		return mObserver;
 	}
 
-	void request::request_termination()
+	void request_impl::do_request_termination()
 	{
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
 			::CancelIo(mHdlDirectory);
@@ -51,7 +47,7 @@ namespace saigon::observation
 		}
 	}
 
-	BOOL request::open_directory()
+	bool request_impl::do_open_directory()
 	{
 		// Allow this routine to be called redundantly.
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
@@ -70,22 +66,22 @@ namespace saigon::observation
 			| FILE_FLAG_OVERLAPPED,
 			NULL);                              // file with attributes to copy
 
-		return (INVALID_HANDLE_VALUE != mHdlDirectory) ? TRUE : FALSE;
+		return (INVALID_HANDLE_VALUE != mHdlDirectory) ? true : false;
 	}
 
-	void request::backup_buffer(DWORD dwSize)
+	void request_impl::backup_buffer(DWORD dwSize)
 	{
 		// We could just swap back and forth between the two
 		// buffers, but this code is easier to understand and debug.
 		memcpy(&mBackupBuffer[0], &mBuffer[0], dwSize);
 	}
 
-	BOOL request::begin_read()
+	bool request_impl::do_begin_read()
 	{
 		DWORD dwBytes = 0;
 
 		// This call needs to be reissued after every APC.
-		return ::ReadDirectoryChangesW(
+		return TRUE == ::ReadDirectoryChangesW(
 			mHdlDirectory,						// handle to directory
 			&mBuffer[0],						// read results buffer
 			(DWORD)mBuffer.size(),				// length of buffer
@@ -96,7 +92,7 @@ namespace saigon::observation
 			&notification_completion);           // completion routine
 	}
 
-	void request::process_notification()
+	void request_impl::process_notification()
 	{
 		BYTE* pBase = mBackupBuffer.data();
 
@@ -139,9 +135,10 @@ namespace saigon::observation
 		}
 	}
 
-	VOID CALLBACK request::notification_completion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
+	VOID CALLBACK request_impl::notification_completion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
 	{
-		request* pBlock = (request*)lpOverlapped->hEvent;
+		request_impl* pBlock = (request_impl*)lpOverlapped->hEvent;
+		_ASSERTE(pBlock);
 
 		if (dwErrorCode == ERROR_OPERATION_ABORTED)
 		{

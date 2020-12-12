@@ -6,7 +6,19 @@ namespace saigon
 	{
 	public:
 		virtual ~iobserver() noexcept = default;
-		virtual unsigned int inc_request() = 0;
-		virtual unsigned int dec_request() = 0;
+
+		unsigned int inc_request()
+		{
+			return do_inc_request();
+		}
+
+		unsigned int dec_request()
+		{
+			return do_dec_request();
+		}
+
+	private:
+		virtual unsigned int do_inc_request() = 0;
+		virtual unsigned int do_dec_request() = 0;
 	};
 }

@@ -5,34 +5,33 @@ module;
 #include <string>
 #include <Windows.h>
 
-export module Saigon.Request;
+export module Saigon.RequestImpl;
 
-import Saigon.IObserver;
+import Saigon.IRequest;
 
 namespace saigon::observation
 {
-	export class request
+	export class request_impl : public irequest
 	{
 	public:
-		request(iobserver* obs,
+		request_impl(iobserver* obs,
 			std::wstring_view directory,
 			DWORD filterFlags,
 			BOOL watchSubtree = TRUE,
 			DWORD size = 16384
 		);
-		~request() noexcept;
 
-		request(request const&) = delete;
-		request& operator=(request const&) = delete;
+		request_impl(request_impl const&) = delete;
+		request_impl& operator=(request_impl const&) = delete;
 
-		[[nodiscard]] iobserver* get_observer() const;
-
-		// The dwSize is the actual number of bytes sent to the APC.
-		void request_termination();
-		[[nodiscard]] BOOL open_directory();
-		void backup_buffer(DWORD dwSize);
-		BOOL begin_read();
 		void process_notification();
+		void backup_buffer(DWORD dwSize);
+
+	private:
+		bool do_open_directory() final;
+		bool do_begin_read() final;
+		void do_request_termination() final;
+		iobserver* do_get_observer() const final;
 
 	private:
 		static VOID CALLBACK notification_completion(
@@ -54,13 +53,13 @@ namespace saigon::observation
 		// Required parameter for ReadDirectoryChangesW().
 		OVERLAPPED	mOverlapped;
 
-		// Data buffer for the request.
+		// Data buffer for the request_impl.
 		// Since the memory is allocated by malloc, it will always
 		// be aligned as required by ReadDirectoryChangesW().
 		std::vector<BYTE> mBuffer;
 
 		// Double buffer strategy so that we can issue a new read
-		// request before we process the current buffer.
+		// request_impl before we process the current buffer.
 		std::vector<BYTE> mBackupBuffer;
 	};
 }

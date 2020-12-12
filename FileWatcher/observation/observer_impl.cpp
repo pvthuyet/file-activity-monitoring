@@ -8,21 +8,12 @@ module Saigon.ObserverImpl;
 
 namespace saigon::observation
 {
-	unsigned int WINAPI observer_impl::start_thread_proc(LPVOID arg)
-	{
-		LOGENTER;
-		observer_impl* obs = static_cast<observer_impl*>(arg);
-		obs->run();
-		LOGEXIT;
-		return 0;
-	}
-
-	unsigned int observer_impl::inc_request()
+	unsigned int observer_impl::do_inc_request()
 	{
 		return ++mOutstandingRequests;
 	}
 
-	unsigned int observer_impl::dec_request()
+	unsigned int observer_impl::do_dec_request()
 	{
 		return --mOutstandingRequests;
 	}
@@ -46,7 +37,7 @@ namespace saigon::observation
 		LOGEXIT;
 	}
 
-	void observer_impl::add_directory(request* pBlock)
+	void observer_impl::add_directory(irequest* pBlock)
 	{
 		_ASSERTE(pBlock);
 		if (pBlock->open_directory())
@@ -71,5 +62,14 @@ namespace saigon::observation
 			mBlocks[i]->request_termination();
 		}
 		mBlocks.clear();
+	}
+
+	unsigned int WINAPI start_observer_thread_proc(LPVOID arg)
+	{
+		LOGENTER;
+		observer_impl* obs = static_cast<observer_impl*>(arg);
+		obs->run();
+		LOGEXIT;
+		return 0;
 	}
 }
