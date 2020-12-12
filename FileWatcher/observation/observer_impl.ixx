@@ -25,11 +25,13 @@ namespace saigon::observation
 
 	private:
 		void run();
-		[[nodiscard]] bool terminated() const;
-		[[nodiscard]] bool empty_request() const;
+		bool terminated() const;
+		bool empty_request() const;
 		void add_directory(irequest* pBlock);
 		void request_termination();
-		friend unsigned int WINAPI start_observer_thread_proc(LPVOID);
+		friend DWORD WINAPI start_observer_thread_proc(LPVOID);
+		friend VOID CALLBACK terminate_observer_proc(__in ULONG_PTR);
+		friend VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR);
 
 	private:
 		std::atomic_bool mTerminated{};
@@ -37,5 +39,7 @@ namespace saigon::observation
 		std::vector<gsl::not_null<irequest*>> mBlocks;
 	};
 
-	static unsigned int WINAPI start_observer_thread_proc(LPVOID arg);
+	static DWORD WINAPI start_observer_thread_proc(LPVOID arg);
+	static VOID CALLBACK terminate_observer_proc(__in ULONG_PTR arg);
+	static VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR arg);
 }

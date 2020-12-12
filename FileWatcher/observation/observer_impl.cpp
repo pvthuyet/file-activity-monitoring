@@ -64,12 +64,28 @@ namespace saigon::observation
 		mBlocks.clear();
 	}
 
-	unsigned int WINAPI start_observer_thread_proc(LPVOID arg)
+	DWORD WINAPI start_observer_thread_proc(LPVOID arg)
 	{
 		LOGENTER;
 		observer_impl* obs = static_cast<observer_impl*>(arg);
 		obs->run();
 		LOGEXIT;
 		return 0;
+	}
+
+	static VOID CALLBACK terminate_observer_proc(__in ULONG_PTR arg)
+	{
+		auto obs = reinterpret_cast<observer_impl*>(arg);
+		obs->request_termination();
+	}
+
+	VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR arg)
+	{
+		auto req = reinterpret_cast<irequest*>(arg);
+		auto obs = req->get_observer();
+		auto obsImpl = dynamic_cast<observer_impl*>(obs);
+		if (obsImpl) {
+			obsImpl->add_directory(req);
+		}
 	}
 }
