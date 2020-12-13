@@ -76,29 +76,32 @@ namespace saigon::observation
 		mBlocks.clear();
 	}
 
-	unsigned WINAPI start_observer_thread_proc(LPVOID arg)
+	namespace observer::callback
 	{
-		LOGENTER;
-		observer_impl* obs = static_cast<observer_impl*>(arg);
-		obs->run();
-		LOGEXIT;
-		_endthreadex(0);
-		return 0;
-	}
+		unsigned WINAPI start_thread_proc(LPVOID arg)
+		{
+			LOGENTER;
+			observer_impl* obs = static_cast<observer_impl*>(arg);
+			obs->run();
+			LOGEXIT;
+			_endthreadex(0);
+			return 0;
+		}
 
-	VOID CALLBACK terminate_observer_proc(__in ULONG_PTR arg)
-	{
-		auto obs = reinterpret_cast<observer_impl*>(arg);
-		obs->request_termination();
-	}
+		VOID CALLBACK terminate_proc(__in ULONG_PTR arg)
+		{
+			auto obs = reinterpret_cast<observer_impl*>(arg);
+			obs->request_termination();
+		}
 
-	VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR arg)
-	{
-		auto req = reinterpret_cast<irequest*>(arg);
-		auto obs = req->get_observer();
-		auto obsImpl = dynamic_cast<observer_impl*>(obs);
-		if (obsImpl) {
-			obsImpl->add_directory(req);
+		VOID CALLBACK add_directory_proc(__in ULONG_PTR arg)
+		{
+			auto req = reinterpret_cast<irequest*>(arg);
+			auto obs = req->get_observer();
+			auto obsImpl = dynamic_cast<observer_impl*>(obs);
+			if (obsImpl) {
+				obsImpl->add_directory(req);
+			}
 		}
 	}
 }

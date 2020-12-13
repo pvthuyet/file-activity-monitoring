@@ -12,6 +12,13 @@ import Saigon.IRequest;
 
 namespace saigon::observation
 {
+	namespace observer::callback
+	{
+		export unsigned WINAPI start_thread_proc(LPVOID);
+		export VOID CALLBACK terminate_proc(__in ULONG_PTR);
+		export VOID CALLBACK add_directory_proc(__in ULONG_PTR);
+	}
+
 	export class observer_impl final : public iobserver
 	{
 	public:
@@ -33,9 +40,10 @@ namespace saigon::observation
 		bool empty_request() const;
 		void add_directory(irequest* pBlock);
 		void request_termination();
-		friend unsigned WINAPI start_observer_thread_proc(LPVOID);
-		friend VOID CALLBACK terminate_observer_proc(__in ULONG_PTR);
-		friend VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR);
+
+		friend unsigned WINAPI observer::callback::start_thread_proc(LPVOID);
+		friend VOID CALLBACK observer::callback::terminate_proc(__in ULONG_PTR);
+		friend VOID CALLBACK observer::callback::add_directory_proc(__in ULONG_PTR);
 
 	private:
 		gsl::not_null<idirectory_watcher*> mDirWatcher;
@@ -43,8 +51,4 @@ namespace saigon::observation
 		std::atomic_uint mOutstandingRequests{};
 		std::vector<gsl::not_null<irequest*>> mBlocks;
 	};
-
-	export unsigned WINAPI start_observer_thread_proc(LPVOID);
-	export VOID CALLBACK terminate_observer_proc(__in ULONG_PTR);
-	export VOID CALLBACK add_observer_directory_proc(__in ULONG_PTR);
 }

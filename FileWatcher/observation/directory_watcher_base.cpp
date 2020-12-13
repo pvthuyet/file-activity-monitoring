@@ -15,6 +15,7 @@ namespace saigon::observation
 	void directory_watcher_base::start()
 	{
 		LOGENTER;
+		using namespace observer::callback;
 		// 1. Create observer object
 		mObserver = std::make_unique<observer_impl>(this);
 
@@ -22,7 +23,7 @@ namespace saigon::observation
 		auto ret = _beginthreadex(
 			NULL,
 			0,
-			&start_observer_thread_proc,
+			&start_thread_proc,
 			mObserver.get(),
 			0,
 			&mThreadId);
@@ -42,7 +43,7 @@ namespace saigon::observation
 		param.mNotifyFilters = get_notify_filters();
 		param.mDir = L"C:\\"; //++ TODO;
 		request_impl* req = new request_impl(std::move(param));
-		auto succ = ::QueueUserAPC(add_observer_directory_proc,
+		auto succ = ::QueueUserAPC(add_directory_proc,
 			mObserverThread, 
 			reinterpret_cast<ULONG_PTR>(req));
 
@@ -56,8 +57,9 @@ namespace saigon::observation
 	void directory_watcher_base::stop()
 	{
 		LOGENTER;
+		using namespace observer::callback;
 		if (mObserverThread) {
-			::QueueUserAPC(terminate_observer_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
+			::QueueUserAPC(terminate_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
 			::WaitForSingleObjectEx(mObserverThread, 10000, true);
 			::CloseHandle(mObserverThread);
 

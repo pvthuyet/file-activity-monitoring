@@ -118,8 +118,9 @@ namespace saigon::observation
 			}
 
 			saigon::file_notify_info info(wsFileName, fni.Action);
+			//++ TODO
 			//if (!ignoreFile(info)) {
-				//get_observer()->getDirectoryMonitor()->push(std::move(info));
+				get_observer()->get_watcher()->notify(std::move(info));
 			//}
 
 			if (!fni.NextEntryOffset) {
