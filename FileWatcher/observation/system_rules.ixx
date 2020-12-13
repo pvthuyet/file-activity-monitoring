@@ -5,7 +5,6 @@ module;
 
 export module Saigon.SystemRules;
 
-import Saigon.FileNotifyInfo;
 import Saigon.StringUtils;
 
 namespace saigon::observation
@@ -13,28 +12,33 @@ namespace saigon::observation
 	export class system_rules
 	{
 	public:
-		static system_rules& get_inst();
-		[[nodiscard]] bool verify(saigon::file_notify_info const& info) const;
+		system_rules();
+		[[nodiscard]] bool verify(std::wstring_view path) const;
 
 	private:
-		system_rules();
-		bool is_system(std::wstring const& path) const;
-		bool is_appdata(std::wstring const& path) const;
-		bool is_tmp(std::wstring const& path) const;
+		bool is_system(std::wstring_view path) const;
+		bool is_appdata(std::wstring_view path) const;
+		bool is_tmp(std::wstring_view path) const;
 
 	private:
 		std::array<std::wstring, 10> mSpamPath;
 	};
 
-	system_rules& system_rules::get_inst()
+	bool system_rules::verify(std::wstring_view path) const
 	{
-		static system_rules inst{};
-		return inst;
-	}
+		if (is_system(path)) {
+			return false;
+		}
 
-	bool system_rules::verify(saigon::file_notify_info const& info) const
-	{
-		return false;
+		if (is_appdata(path)) {
+			return false;
+		}
+
+		if (is_tmp(path)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	system_rules::system_rules()
@@ -45,18 +49,23 @@ namespace saigon::observation
 		mSpamPath[3] = L"C:\\Config.Msi";
 	}
 
-	bool system_rules::is_system(std::wstring const& path) const
+	bool system_rules::is_system(std::wstring_view path) const
 	{
-		return true;
+		for (auto const& p : mSpamPath) {
+			if (saigon::stringutils::find(path, p)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	bool system_rules::is_appdata(std::wstring const& path) const
+	bool system_rules::is_appdata(std::wstring_view path) const
 	{
-		return true;
+		return false;
 	}
 
-	bool system_rules::is_tmp(std::wstring const& path) const
+	bool system_rules::is_tmp(std::wstring_view path) const
 	{
-		return true;
+		return false;
 	}
 }

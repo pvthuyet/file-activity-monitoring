@@ -11,6 +11,7 @@ module;
 module Saigon.RequestImpl;
 
 import Saigon.FileNotifyInfo;
+import Saigon.WatcherRules;
 
 namespace saigon::observation
 {
@@ -118,10 +119,9 @@ namespace saigon::observation
 			}
 
 			saigon::file_notify_info info(wsFileName, fni.Action);
-			//++ TODO
-			//if (!ignoreFile(info)) {
+			if (watcher_rules::get_inst().verify(wsFileName)) {
 				get_observer()->get_watcher()->notify(std::move(info));
-			//}
+			}
 
 			if (!fni.NextEntryOffset) {
 				break;

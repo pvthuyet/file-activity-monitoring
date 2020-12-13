@@ -104,6 +104,9 @@
     <ClCompile Include="observation\system_rules.ixx">
       <Filter>Observation\Rules</Filter>
     </ClCompile>
+    <ClCompile Include="observation\watcher_rules.ixx">
+      <Filter>Observation\Rules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

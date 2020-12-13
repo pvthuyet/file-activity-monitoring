@@ -10,6 +10,7 @@ import Saigon.Minidump;
 
 import Saigon.ClipboardWatcher;
 import Saigon.FilenameWatcher;
+import Saigon.WatcherRules;
 
 namespace saigon
 {
@@ -35,6 +36,7 @@ namespace saigon
 	{
 		dump::monitoring();
 		logger::create_logger();
+		observation::watcher_rules::get_inst().load_rules();
 		gFileNameWatcher = std::make_unique<observation::filename_watcher>();
 	}
 
