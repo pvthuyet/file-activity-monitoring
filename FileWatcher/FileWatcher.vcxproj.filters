@@ -16,6 +16,18 @@
     <Filter Include="Observation">
       <UniqueIdentifier>{29086632-f0c5-4e82-a7bd-fca459733639}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observation\Rules">
+      <UniqueIdentifier>{611dbd9c-a087-4123-ae0f-f70fb8ac7e4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observation\request">
+      <UniqueIdentifier>{4905f556-fb53-477e-878b-f974d89622b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observation\observer">
+      <UniqueIdentifier>{95dc9ff7-c020-4cf2-a592-670d13958fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observation\watcher">
+      <UniqueIdentifier>{5c7fd7cd-2e73-44d1-a7e9-851fd2ff2f7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -53,41 +65,44 @@
     <ClCompile Include="file_notify_info.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="observation\observer_impl.cpp">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\observer_impl.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\iobserver.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\irequest.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\request_impl.cpp">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\request_impl.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\idirectory_watcher.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\directory_watcher_base.cpp">
-      <Filter>Observation</Filter>
-    </ClCompile>
-    <ClCompile Include="observation\directory_watcher_base.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
     <ClCompile Include="observation\watching_action.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
-    <ClCompile Include="observation\filename_watcher.ixx">
-      <Filter>Observation</Filter>
+    <ClCompile Include="observation\request_impl.cpp">
+      <Filter>Observation\request</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\request_impl.ixx">
+      <Filter>Observation\request</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\irequest.ixx">
+      <Filter>Observation\request</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\iobserver.ixx">
+      <Filter>Observation\observer</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\observer_impl.cpp">
+      <Filter>Observation\observer</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\observer_impl.ixx">
+      <Filter>Observation\observer</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\directory_watcher_base.cpp">
+      <Filter>Observation\watcher</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\directory_watcher_base.ixx">
+      <Filter>Observation\watcher</Filter>
     </ClCompile>
     <ClCompile Include="observation\filename_watcher.cpp">
-      <Filter>Observation</Filter>
+      <Filter>Observation\watcher</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\filename_watcher.ixx">
+      <Filter>Observation\watcher</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\idirectory_watcher.ixx">
+      <Filter>Observation\watcher</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\system_rules.ixx">
+      <Filter>Observation\Rules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,11 @@ namespace saigon
 		initialize();
 	}
 
+	ApplicationManager::~ApplicationManager() noexcept
+	{
+		gFileNameWatcher = nullptr;
+	}
+
 	ApplicationManager& ApplicationManager::getInst()
 	{
 		static ApplicationManager appInst{};
@@ -28,8 +33,9 @@ namespace saigon
 
 	void ApplicationManager::initialize()
 	{
-		dump::monitoring("");
+		dump::monitoring();
 		logger::create_logger();
+		gFileNameWatcher = std::make_unique<observation::filename_watcher>();
 	}
 
 	void ApplicationManager::run()
@@ -37,7 +43,6 @@ namespace saigon
 		try
 		{
 			ClipboardWatcher::getInst().start();
-			gFileNameWatcher = std::make_unique<observation::filename_watcher>();
 			gFileNameWatcher->start();
 		}
 		catch (std::exception const& ex)
@@ -49,6 +54,5 @@ namespace saigon
 	void ApplicationManager::stop()
 	{
 		gFileNameWatcher->stop();
-		gFileNameWatcher = nullptr;
 	}
 }

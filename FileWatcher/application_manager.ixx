@@ -7,7 +7,7 @@ namespace saigon
 	export class ApplicationManager
 	{
 	public:
-		~ApplicationManager() noexcept = default;
+		~ApplicationManager() noexcept;
 		static ApplicationManager& getInst();
 		void run();
 		void stop();

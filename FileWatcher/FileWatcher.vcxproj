@@ -180,6 +180,7 @@
     <ClCompile Include="observation\observer_impl.ixx" />
     <ClCompile Include="observation\request_impl.cpp" />
     <ClCompile Include="observation\request_impl.ixx" />
+    <ClCompile Include="observation\system_rules.ixx" />
     <ClCompile Include="observation\watching_action.ixx" />
   </ItemGroup>
   <ItemGroup>
