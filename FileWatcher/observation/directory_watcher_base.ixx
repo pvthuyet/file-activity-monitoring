@@ -14,9 +14,10 @@ namespace saigon::observation
 	public:
 		void start();
 		void stop();
+		DWORD get_notify_filters() const;
 
 	private:
-		virtual DWORD get_notify_filters() const = 0;
+		virtual DWORD do_get_notify_filters() const = 0;
 
 	private:
 		HANDLE mObserverThread{nullptr};

@@ -12,6 +12,11 @@ import Saigon.ClipboardWatcher;
 
 namespace saigon
 {
+	ApplicationManager::~ApplicationManager() noexcept
+	{
+		mFileNameWatcher.stop();
+	}
+
 	ApplicationManager::ApplicationManager()
 	{
 		initialize();
@@ -34,6 +39,7 @@ namespace saigon
 		try
 		{
 			ClipboardWatcher::getInst().start();
+			mFileNameWatcher.start();
 		}
 		catch (std::exception const& ex)
 		{

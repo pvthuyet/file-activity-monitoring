@@ -80,6 +80,15 @@
     <ClCompile Include="observation\directory_watcher_base.ixx">
       <Filter>Observation</Filter>
     </ClCompile>
+    <ClCompile Include="observation\watching_action.ixx">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\filename_watcher.ixx">
+      <Filter>Observation</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\filename_watcher.cpp">
+      <Filter>Observation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

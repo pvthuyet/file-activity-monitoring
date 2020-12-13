@@ -171,6 +171,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="observation\directory_watcher_base.cpp" />
     <ClCompile Include="observation\directory_watcher_base.ixx" />
+    <ClCompile Include="observation\filename_watcher.cpp" />
+    <ClCompile Include="observation\filename_watcher.ixx" />
     <ClCompile Include="observation\idirectory_watcher.ixx" />
     <ClCompile Include="observation\iobserver.ixx" />
     <ClCompile Include="observation\irequest.ixx" />
@@ -178,6 +180,7 @@
     <ClCompile Include="observation\observer_impl.ixx" />
     <ClCompile Include="observation\request_impl.cpp" />
     <ClCompile Include="observation\request_impl.ixx" />
+    <ClCompile Include="observation\watching_action.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FileWatcher.rc" />

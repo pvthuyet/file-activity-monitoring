@@ -20,6 +20,9 @@ namespace saigon
 		bool operator==(file_notify_info const& other) const noexcept;
 		auto operator<=>(file_notify_info const& other) const noexcept = default;
 
+		auto get_action() const { return mAction; }
+		auto get_path_string() const { return mPath.string(); }
+
 	private:
 		std::filesystem::path mPath{};
 		unsigned long mAction{};

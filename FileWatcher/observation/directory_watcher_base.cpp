@@ -9,9 +9,15 @@ module Saigon.DirectoryWatcherBase;
 
 import Saigon.ObserverImpl;
 import Saigon.RequestImpl;
+import Saigon.CommonUtils;
 
 namespace saigon::observation
 {
+	DWORD directory_watcher_base::get_notify_filters() const
+	{
+		return do_get_notify_filters();
+	}
+
 	void directory_watcher_base::start()
 	{
 		LOGENTER;
@@ -35,20 +41,22 @@ namespace saigon::observation
 		mObserverThread = reinterpret_cast<HANDLE>(ret);
 
 		// 3. enumerate all disks
-		// ...
+		auto drives = saigon::enumerate_drives();
 
 		// 4. build request
-		request_param param{};
-		param.mObs = mObserver.get();
-		param.mNotifyFilters = get_notify_filters();
-		param.mDir = L"C:\\"; //++ TODO;
-		request_impl* req = new request_impl(std::move(param));
-		auto succ = ::QueueUserAPC(add_directory_proc,
-			mObserverThread, 
-			reinterpret_cast<ULONG_PTR>(req));
+		for (auto const& e : drives) {
+			request_param param{};
+			param.mObs = mObserver.get();
+			param.mNotifyFilters = get_notify_filters();
+			param.mDir = e;
+			request_impl* req = new request_impl(std::move(param));
+			auto succ = ::QueueUserAPC(add_directory_proc,
+				mObserverThread,
+				reinterpret_cast<ULONG_PTR>(req));
 
-		if (not succ) {
-			SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
+			if (not succ) {
+				SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
+			}
 		}
 
 		LOGEXIT;

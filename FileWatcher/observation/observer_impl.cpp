@@ -90,18 +90,22 @@ namespace saigon::observation
 
 		VOID CALLBACK terminate_proc(__in ULONG_PTR arg)
 		{
+			LOGENTER;
 			auto obs = reinterpret_cast<observer_impl*>(arg);
 			obs->request_termination();
+			LOGEXIT;
 		}
 
 		VOID CALLBACK add_directory_proc(__in ULONG_PTR arg)
 		{
+			LOGENTER;
 			auto req = reinterpret_cast<irequest*>(arg);
 			auto obs = req->get_observer();
 			auto obsImpl = dynamic_cast<observer_impl*>(obs);
 			if (obsImpl) {
 				obsImpl->add_directory(req);
 			}
+			LOGEXIT;
 		}
 	}
 }
