@@ -1,11 +1,11 @@
 module;
 
 #include <string>
-#include "nlohmann\json.hpp"
 
 export module Saigon.WatcherRules;
 
 import Saigon.SystemRules;
+import Saigon.ConfigReader;
 
 namespace saigon::observation
 {
@@ -31,10 +31,8 @@ namespace saigon::observation
 
 	bool watcher_rules::load_rules() const
 	{
-		using json = nlohmann::json;
-		std::wstring rulePath = L"config\\rules.json";
-		auto rules = json::parse(rulePath);
-		int xx = 0;
+		config_reader cnf;
+		cnf.read();
 		return true;
 	}
 
