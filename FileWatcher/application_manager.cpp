@@ -9,13 +9,11 @@ import Saigon.Logger; //++ TODO Can't use logger and fmt/format together
 import Saigon.Minidump;
 
 import Saigon.ClipboardWatcher;
+import Saigon.FilenameWatcher;
 
 namespace saigon
 {
-	ApplicationManager::~ApplicationManager() noexcept
-	{
-		mFileNameWatcher.stop();
-	}
+	std::unique_ptr<observation::filename_watcher> gFileNameWatcher{};
 
 	ApplicationManager::ApplicationManager()
 	{
@@ -39,11 +37,18 @@ namespace saigon
 		try
 		{
 			ClipboardWatcher::getInst().start();
-			mFileNameWatcher.start();
+			gFileNameWatcher = std::make_unique<observation::filename_watcher>();
+			gFileNameWatcher->start();
 		}
 		catch (std::exception const& ex)
 		{
 			SPDLOG_ERROR(ex.what());
 		}
+	}
+
+	void ApplicationManager::stop()
+	{
+		gFileNameWatcher->stop();
+		gFileNameWatcher = nullptr;
 	}
 }

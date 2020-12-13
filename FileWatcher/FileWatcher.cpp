@@ -55,6 +55,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+    //++ TODO: thuyet ApplicationManager
+    saigon::ApplicationManager::getInst().stop();
+
     return (int) msg.wParam;
 }
 

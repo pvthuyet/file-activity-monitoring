@@ -2,16 +2,15 @@ module;
 
 export module Saigon.ApplicationManager;
 
-import Saigon.FilenameWatcher;
-
 namespace saigon
 {
 	export class ApplicationManager
 	{
 	public:
-		~ApplicationManager() noexcept;
+		~ApplicationManager() noexcept = default;
 		static ApplicationManager& getInst();
 		void run();
+		void stop();
 
 		// no copyable
 		ApplicationManager(ApplicationManager const&) = delete;
@@ -20,8 +19,5 @@ namespace saigon
 	private:
 		ApplicationManager();
 		void initialize();
-
-	private:
-		observation::filename_watcher mFileNameWatcher;
 	};
 }
