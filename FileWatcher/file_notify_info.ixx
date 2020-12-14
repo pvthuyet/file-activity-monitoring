@@ -3,7 +3,6 @@ module;
 #include <string>
 #include <compare>
 #include <filesystem>
-#include "defines.h"
 
 export module Saigon.FileNotifyInfo;
 

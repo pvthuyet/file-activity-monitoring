@@ -13,6 +13,11 @@ import Saigon.CommonUtils;
 
 namespace saigon::observation
 {
+	directory_watcher_base::~directory_watcher_base() noexcept
+	{
+		stop();
+	}
+
 	DWORD directory_watcher_base::get_notify_filters() const
 	{
 		return do_get_notify_filters();
@@ -62,18 +67,20 @@ namespace saigon::observation
 		LOGEXIT;
 	}
 
-	void directory_watcher_base::stop()
+	void directory_watcher_base::stop() noexcept
 	{
 		LOGENTER;
 		using namespace observer::callback;
+		// 1. terminate queue then close thread
 		if (mObserverThread) {
 			::QueueUserAPC(terminate_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
 			::WaitForSingleObjectEx(mObserverThread, 10000, true);
 			::CloseHandle(mObserverThread);
-
 			mObserverThread = nullptr;
 			mThreadId = 0;
 		}
+
+		// 2. destroy observer
 		mObserver = nullptr;
 		LOGEXIT;
 	}

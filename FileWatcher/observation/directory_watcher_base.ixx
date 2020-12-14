@@ -12,8 +12,9 @@ namespace saigon::observation
 	export class directory_watcher_base : public idirectory_watcher
 	{
 	public:
+		~directory_watcher_base() noexcept override;
 		void start();
-		void stop();
+		void stop() noexcept;
 		DWORD get_notify_filters() const;
 
 	private:
