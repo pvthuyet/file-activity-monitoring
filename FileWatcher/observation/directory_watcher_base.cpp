@@ -79,6 +79,7 @@ namespace saigon::observation
 			}
 			
 			do {
+				bool waitMore = false;
 				DWORD stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
 				switch (stat) {
 				case WAIT_ABANDONED:
@@ -95,6 +96,7 @@ namespace saigon::observation
 
 				case WAIT_TIMEOUT:
 					SPDLOG_INFO("wait WAIT_TIMEOUT");
+					waitMore = true;
 					break;
 
 				case WAIT_FAILED:
@@ -105,7 +107,7 @@ namespace saigon::observation
 					break;
 				}
 
-			} while (stat == WAIT_TIMEOUT);
+			} while (waitMore);
 
 			::CloseHandle(mObserverThread);
 			mObserverThread = nullptr;
