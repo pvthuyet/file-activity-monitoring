@@ -169,6 +169,7 @@
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="observation\config_reader.cpp" />
     <ClCompile Include="observation\config_reader.ixx" />
     <ClCompile Include="observation\directory_watcher_base.cpp" />
     <ClCompile Include="observation\directory_watcher_base.ixx" />

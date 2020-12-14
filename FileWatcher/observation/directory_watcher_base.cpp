@@ -73,8 +73,40 @@ namespace saigon::observation
 		using namespace observer::callback;
 		// 1. terminate queue then close thread
 		if (mObserverThread) {
-			::QueueUserAPC(terminate_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
-			::WaitForSingleObjectEx(mObserverThread, 10000, true);
+			auto succ = ::QueueUserAPC(terminate_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
+			if (not succ) {
+				SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
+			}
+			
+			do {
+				DWORD stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
+				switch (stat) {
+				case WAIT_ABANDONED:
+					SPDLOG_INFO("wait WAIT_ABANDONED");
+					break;
+
+				case WAIT_IO_COMPLETION:
+					SPDLOG_INFO("wait WAIT_IO_COMPLETION");
+					break;
+
+				case WAIT_OBJECT_0:
+					SPDLOG_INFO("wait WAIT_OBJECT_0");
+					break;
+
+				case WAIT_TIMEOUT:
+					SPDLOG_INFO("wait WAIT_TIMEOUT");
+					break;
+
+				case WAIT_FAILED:
+					SPDLOG_INFO("wait WAIT_FAILED");
+					break;
+
+				default:
+					break;
+				}
+
+			} while (stat == WAIT_TIMEOUT);
+
 			::CloseHandle(mObserverThread);
 			mObserverThread = nullptr;
 			mThreadId = 0;

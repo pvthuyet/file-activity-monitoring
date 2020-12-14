@@ -1,3 +1,19 @@
 {
-	"system_exclude_paths":[":\\$Recycle.Bin\\", ":\\System Volume Information\\", "C:\\hiberfil.sys", "C:\\Config.Msi", "thuyết"]
+  "user_exclude_paths": [
+  ],
+  "system_exclude_paths": [
+    "C:\\Program Files (x86)",
+    "C:\\Program Files",
+    "C:\\hiberfil.sys",
+    "C:\\Config.Msi",
+    "C:\\Windows"
+  ],
+  "regex_exclude_paths": [
+    "C:\\\\Users\\\\.+\\\\AppData",
+    "\\\\.",
+    "\\\\\\~.+TMP$",
+    "\\\\\\~\\$.+",
+    "^[A-Z]:\\$Recycle.Bin\\",
+    "^[A-Z]:\\System Volume Information\\"
+  ]
 }

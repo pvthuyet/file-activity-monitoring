@@ -28,7 +28,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     //++ TODO: thuyet ApplicationManager
-    saigon::ApplicationManager::getInst().run();
+    saigon::ApplicationManager appMgr;
+    appMgr.start();
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -54,9 +55,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
-
-    //++ TODO: thuyet ApplicationManager
-    saigon::ApplicationManager::getInst().stop();
 
     return (int) msg.wParam;
 }

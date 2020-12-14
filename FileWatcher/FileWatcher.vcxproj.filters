@@ -108,7 +108,10 @@
       <Filter>Observation\Rules</Filter>
     </ClCompile>
     <ClCompile Include="observation\config_reader.ixx">
-      <Filter>Observation</Filter>
+      <Filter>Observation\Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\config_reader.cpp">
+      <Filter>Observation\Rules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

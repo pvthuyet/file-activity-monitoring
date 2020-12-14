@@ -1,23 +1,19 @@
 module;
 
+#include <memory>
+
 export module Saigon.ApplicationManager;
+
+import Saigon.FilenameWatcher;
 
 namespace saigon
 {
 	export class ApplicationManager
 	{
 	public:
-		~ApplicationManager() noexcept;
-		static ApplicationManager& getInst();
-		void run();
-		void stop();
-
-		// no copyable
-		ApplicationManager(ApplicationManager const&) = delete;
-		ApplicationManager& operator=(ApplicationManager const&) = delete;
+		void start();
 
 	private:
-		ApplicationManager();
-		void initialize();
+		std::unique_ptr<observation::filename_watcher> mFileNameWatcher;
 	};
 }
