@@ -5,6 +5,7 @@ module;
 #include <vector>
 #include <string>
 #include <gsl/assert>
+#include "logger_define.h"
 
 #pragma comment(lib, "Shlwapi")
 
@@ -35,18 +36,22 @@ namespace saigon::observation
 
 	void request_impl::do_request_termination()
 	{
+		LOGENTER;
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
-			::CancelIo(mHdlDirectory);
-			::CloseHandle(mHdlDirectory);
+			auto succ =::CancelIo(mHdlDirectory);
+			SPDLOG_INFO("CancelIo: {}", succ);
+			succ = ::CloseHandle(mHdlDirectory);
+			SPDLOG_INFO("CloseHandle: {}", succ);
 			mHdlDirectory = INVALID_HANDLE_VALUE;
 		}
+		LOGEXIT;
 	}
 
 	bool request_impl::do_open_directory()
 	{
 		// Allow this routine to be called redundantly.
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
-			return TRUE;
+			return true;
 		}
 
 		mHdlDirectory = ::CreateFileW(
@@ -132,12 +137,14 @@ namespace saigon::observation
 
 	VOID CALLBACK request_impl::notification_completion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpOverlapped)
 	{
+		LOGENTER;
 		request_impl* pBlock = (request_impl*)lpOverlapped->hEvent;
 		_ASSERTE(pBlock);
 
 		if (dwErrorCode == ERROR_OPERATION_ABORTED)
 		{
-			pBlock->get_observer()->dec_request();
+			auto num = pBlock->get_observer()->dec_request();
+			SPDLOG_INFO("cancel request. error code = {}. Remain requests: {}", dwErrorCode, num);
 			delete pBlock;
 			return;
 		}
@@ -155,8 +162,21 @@ namespace saigon::observation
 		// Get the new read issued as fast as possible. The documentation
 		// says that the original OVERLAPPED structure will not be used
 		// again once the completion routine is called.
-		pBlock->begin_read();
 
+		// Make sure begin_read success
+		if (not pBlock->begin_read()) {
+			auto num = pBlock->get_observer()->dec_request();
+			SPDLOG_ERROR("Failed begin_read. dwErrorCode = {}, dwNumberOfBytesTransfered = {}, remain requests: {}",
+				dwErrorCode,
+				dwNumberOfBytesTransfered,
+				num);
+			delete pBlock;
+			return;
+		}
+
+		// start processing
 		pBlock->process_notification();
+
+		LOGEXIT;
 	}
 }

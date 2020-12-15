@@ -15,7 +15,6 @@ int wmain(int arg, const wchar_t* argv[])
 	}
 	catch (...) {
 		std::cout << "Unhandle exception\n";
-		return -1;
 	}
-	return 0;
+	return -1;
 }

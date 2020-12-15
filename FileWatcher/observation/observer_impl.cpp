@@ -22,6 +22,10 @@ namespace saigon::observation
 
 	unsigned int observer_impl::do_dec_request()
 	{
+		if (empty_request()) {
+			SPDLOG_INFO("number of requests are 0");
+			return 0u;
+		}
 		return --mOutstandingRequests;
 	}
 
@@ -37,31 +41,33 @@ namespace saigon::observation
 
 	bool observer_impl::empty_request() const
 	{
-		return !mOutstandingRequests.load(std::memory_order::memory_order_relaxed);
+		return 0u == mOutstandingRequests.load(std::memory_order::memory_order_relaxed);
 	}
 
 	void observer_impl::run()
 	{
 		LOGENTER;
 		while (not empty_request() or not terminated()) {
-			::SleepEx(INFINITE, TRUE);
+			auto retVal = ::SleepEx(3000, TRUE);
+			SPDLOG_DEBUG("SleepEx return value: {}, number request: {}, terminated: {}", retVal, empty_request(), terminated());
 		}
 		LOGEXIT;
 	}
 
-	void observer_impl::add_directory(irequest* pBlock)
+	bool observer_impl::add_directory(irequest* pBlock)
 	{
 		_ASSERTE(pBlock);
-		if (pBlock->open_directory())
-		{
+		if (pBlock->open_directory() and pBlock->begin_read()) {
 			pBlock->get_observer()->inc_request();
 			mBlocks.push_back(pBlock);
-			pBlock->begin_read();
+			return true;
 		}
-		else {
-			delete pBlock;
-			pBlock = nullptr;
-		}
+
+		// failed
+		SPDLOG_ERROR("Failed to call open_directory() or begin_read()");
+		delete pBlock;
+		pBlock = nullptr;
+		return false;
 	}
 
 	void observer_impl::request_termination()

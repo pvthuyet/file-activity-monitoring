@@ -78,9 +78,9 @@ namespace saigon::observation
 				SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
 			}
 			
+			DWORD stat = 0;
 			do {
-				bool waitMore = false;
-				DWORD stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
+				stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
 				switch (stat) {
 				case WAIT_ABANDONED:
 					SPDLOG_INFO("wait WAIT_ABANDONED");
@@ -96,7 +96,6 @@ namespace saigon::observation
 
 				case WAIT_TIMEOUT:
 					SPDLOG_INFO("wait WAIT_TIMEOUT");
-					waitMore = true;
 					break;
 
 				case WAIT_FAILED:
@@ -107,7 +106,7 @@ namespace saigon::observation
 					break;
 				}
 
-			} while (waitMore);
+			} while (WAIT_TIMEOUT == stat);
 
 			::CloseHandle(mObserverThread);
 			mObserverThread = nullptr;

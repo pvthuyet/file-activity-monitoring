@@ -15,7 +15,7 @@ namespace saigon::observation
 			return do_open_directory();
 		}
 
-		bool begin_read()
+		[[nodiscard]] bool begin_read()
 		{
 			return do_begin_read();
 		}

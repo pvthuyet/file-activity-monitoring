@@ -38,7 +38,7 @@ namespace saigon::observation
 		void run();
 		bool terminated() const;
 		bool empty_request() const;
-		void add_directory(irequest* pBlock);
+		bool add_directory(irequest* pBlock);
 		void request_termination();
 
 		friend unsigned WINAPI observer::callback::start_thread_proc(LPVOID);
