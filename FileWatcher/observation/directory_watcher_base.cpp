@@ -81,31 +81,7 @@ namespace saigon::observation
 			DWORD stat = 0;
 			do {
 				stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
-				switch (stat) {
-				case WAIT_ABANDONED:
-					SPDLOG_INFO("wait WAIT_ABANDONED");
-					break;
-
-				case WAIT_IO_COMPLETION:
-					SPDLOG_INFO("wait WAIT_IO_COMPLETION");
-					break;
-
-				case WAIT_OBJECT_0:
-					SPDLOG_INFO("wait WAIT_OBJECT_0");
-					break;
-
-				case WAIT_TIMEOUT:
-					SPDLOG_INFO("wait WAIT_TIMEOUT");
-					break;
-
-				case WAIT_FAILED:
-					SPDLOG_INFO("wait WAIT_FAILED");
-					break;
-
-				default:
-					break;
-				}
-
+				SPDLOG_INFO("WaitForSingleObjectEx: {}", stat);
 			} while (WAIT_TIMEOUT == stat);
 
 			::CloseHandle(mObserverThread);
