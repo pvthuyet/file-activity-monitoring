@@ -48,7 +48,7 @@ namespace saigon::observation
 	{
 		LOGENTER;
 		while (not empty_request() or not terminated()) {
-			auto retVal = ::SleepEx(3000, TRUE);
+			auto retVal = ::SleepEx(10000, TRUE);
 			SPDLOG_DEBUG("SleepEx return value: {}, number request: {}, terminated: {}", retVal, empty_request(), terminated());
 		}
 		LOGEXIT;

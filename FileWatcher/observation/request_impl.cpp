@@ -38,10 +38,8 @@ namespace saigon::observation
 	{
 		LOGENTER;
 		if (INVALID_HANDLE_VALUE != mHdlDirectory) {
-			auto succ =::CancelIo(mHdlDirectory);
-			SPDLOG_INFO("CancelIo: {}", succ);
-			succ = ::CloseHandle(mHdlDirectory);
-			SPDLOG_INFO("CloseHandle: {}", succ);
+			::CancelIo(mHdlDirectory);
+			::CloseHandle(mHdlDirectory);
 			mHdlDirectory = INVALID_HANDLE_VALUE;
 		}
 		LOGEXIT;
