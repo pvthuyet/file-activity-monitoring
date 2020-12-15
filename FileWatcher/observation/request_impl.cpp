@@ -34,6 +34,13 @@ namespace saigon::observation
 		return mParam.mObs;
 	}
 
+	std::wstring request_impl::do_get_request_id() const
+	{
+		return std::to_wstring(mParam.mNotifyFilters) + 
+			L"-" + std::to_wstring(mParam.mWatchSubtree) + 
+			L"-" + mParam.mDir;
+	}
+
 	void request_impl::do_request_termination()
 	{
 		LOGENTER;
@@ -142,7 +149,7 @@ namespace saigon::observation
 		if (dwErrorCode == ERROR_OPERATION_ABORTED)
 		{
 			auto num = pBlock->get_observer()->dec_request();
-			SPDLOG_INFO("cancel request. error code = {}. Remain requests: {}", dwErrorCode, num);
+			SPDLOG_INFO(L"Cancel request id: {}, remain request: {}", pBlock->get_request_id(), num);
 			delete pBlock;
 			return;
 		}
@@ -164,10 +171,7 @@ namespace saigon::observation
 		// Make sure begin_read success
 		if (not pBlock->begin_read()) {
 			auto num = pBlock->get_observer()->dec_request();
-			SPDLOG_ERROR("Failed begin_read. dwErrorCode = {}, dwNumberOfBytesTransfered = {}, remain requests: {}",
-				dwErrorCode,
-				dwNumberOfBytesTransfered,
-				num);
+			SPDLOG_WARN(L"Can't read request id: {}, dwErrorCode: {}, remain request: {}", pBlock->get_request_id(), dwErrorCode, num);
 			delete pBlock;
 			return;
 		}

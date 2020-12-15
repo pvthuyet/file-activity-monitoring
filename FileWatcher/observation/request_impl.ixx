@@ -37,6 +37,7 @@ namespace saigon::observation
 		bool do_begin_read() final;
 		void do_request_termination() final;
 		iobserver* do_get_observer() const final;
+		std::wstring do_get_request_id() const final;
 
 	private:
 		static VOID CALLBACK notification_completion(

@@ -40,7 +40,7 @@ namespace saigon::observation
 			&mThreadId);
 
 		if (not ret) {
-			SPDLOG_ERROR("Failed to create observer thread. errno = {}, doserrno = {}", errno, _doserrno);
+			SPDLOG_ERROR("Errno: {}, doserrno: {}", errno, _doserrno);
 			throw std::system_error(errno, std::system_category(), "Failed to create observer thread");
 		}
 		mObserverThread = reinterpret_cast<HANDLE>(ret);
@@ -60,7 +60,7 @@ namespace saigon::observation
 				reinterpret_cast<ULONG_PTR>(req));
 
 			if (not succ) {
-				SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
+				SPDLOG_ERROR("Last error code: {}", ::GetLastError());
 			}
 		}
 
@@ -75,13 +75,13 @@ namespace saigon::observation
 		if (mObserverThread) {
 			auto succ = ::QueueUserAPC(terminate_proc, mObserverThread, reinterpret_cast<ULONG_PTR>(mObserver.get()));
 			if (not succ) {
-				SPDLOG_ERROR("Failed QueueUserAPC. Error = {}", ::GetLastError());
+				SPDLOG_ERROR("Last error code: {}", ::GetLastError());
 			}
 			
 			DWORD stat = 0;
 			do {
 				stat = ::WaitForSingleObjectEx(mObserverThread, 3000, true);
-				SPDLOG_INFO("WaitForSingleObjectEx: {}", stat);
+				SPDLOG_INFO("WaitForSingleObjectEx state: {}", stat);
 			} while (WAIT_TIMEOUT == stat);
 
 			::CloseHandle(mObserverThread);

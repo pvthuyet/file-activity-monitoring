@@ -23,7 +23,6 @@ namespace saigon::observation
 	unsigned int observer_impl::do_dec_request()
 	{
 		if (empty_request()) {
-			SPDLOG_INFO("number of requests are 0");
 			return 0u;
 		}
 		return --mOutstandingRequests;
@@ -49,7 +48,7 @@ namespace saigon::observation
 		LOGENTER;
 		while (not empty_request() or not terminated()) {
 			auto retVal = ::SleepEx(INFINITE, TRUE);
-			SPDLOG_DEBUG("SleepEx return value: {}, number request: {}, terminated: {}", retVal, empty_request(), terminated());
+			SPDLOG_DEBUG("SleepEx state: {}, number request: {}, terminated: {}", retVal, empty_request(), terminated());
 		}
 		LOGEXIT;
 	}
@@ -64,7 +63,7 @@ namespace saigon::observation
 		}
 
 		// failed
-		SPDLOG_ERROR("Failed to call open_directory() or begin_read()");
+		SPDLOG_ERROR(L"Request id: {}", pBlock->get_request_id());
 		delete pBlock;
 		pBlock = nullptr;
 		return false;
@@ -108,8 +107,8 @@ namespace saigon::observation
 			auto req = reinterpret_cast<irequest*>(arg);
 			auto obs = req->get_observer();
 			auto obsImpl = dynamic_cast<observer_impl*>(obs);
-			if (obsImpl) {
-				obsImpl->add_directory(req);
+			if (not obsImpl or not obsImpl->add_directory(req)) {
+				SPDLOG_ERROR(L"Request id: {}", req->get_request_id());
 			}
 			LOGEXIT;
 		}

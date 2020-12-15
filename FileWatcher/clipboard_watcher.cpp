@@ -47,7 +47,7 @@ namespace saigon
 		if (mMsgEvent) {
 			auto succ = ::RemoveClipboardFormatListener(mMsgEvent->get_handle());
 			if (not succ) {
-				SPDLOG_ERROR("Failed to call RemoveClipboardFormatListener");
+				SPDLOG_ERROR("From RemoveClipboardFormatListener");
 			}
 			mMsgEvent->unregister_window_class();
 			mMsgEvent = nullptr;
