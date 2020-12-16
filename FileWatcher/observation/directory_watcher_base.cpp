@@ -18,9 +18,14 @@ namespace saigon::observation
 		stop();
 	}
 
-	void directory_watcher_base::start(watching_info&& info)
+	bool directory_watcher_base::start(watching_setting&& info)
 	{
 		LOGENTER;
+		if (not info.valid()) {
+			SPDLOG_ERROR("Invalid watching setting");
+			return false;
+		}
+
 		using namespace observer::callback;
 		// 1. Create observer object
 		mObserver = std::make_unique<observer_impl>(this);
@@ -35,8 +40,8 @@ namespace saigon::observation
 			&mThreadId);
 
 		if (not ret) {
-			SPDLOG_ERROR("Errno: {}, doserrno: {}", errno, _doserrno);
-			throw std::system_error(errno, std::system_category(), "Failed to create observer thread");
+			SPDLOG_ERROR("Create thread. errno: {}, doserrno: {}", errno, _doserrno);
+			return false;
 		}
 		mObserverThread = reinterpret_cast<HANDLE>(ret);
 
@@ -51,9 +56,11 @@ namespace saigon::observation
 
 		if (not succ) {
 			SPDLOG_ERROR("Last error code: {}", ::GetLastError());
+			return false;
 		}
 
 		LOGEXIT;
+		return true;
 	}
 
 	void directory_watcher_base::stop() noexcept

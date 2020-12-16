@@ -7,7 +7,7 @@ module Saigon.ApplicationManager;
 
 import Saigon.ClipboardWatcher;
 import Saigon.WatcherRules;
-import Saigon.WatchingInfo;
+import Saigon.WatchingSetting;
 
 namespace saigon
 {
@@ -18,10 +18,10 @@ namespace saigon
 			//ClipboardWatcher::getInst().start();
 
 			// 2. load rule
-			//observation::watcher_rules::get_inst().load_rules();
+			observation::watcher_rules::get_inst().load_rules();
 
 			// 3. start watcher
-			saigon::observation::watching_info info;
+			saigon::observation::watching_setting info;
 			mFileNameWatcher = std::make_unique<observation::filename_watcher>();
 			mFileNameWatcher->start(std::move(info));
 		}

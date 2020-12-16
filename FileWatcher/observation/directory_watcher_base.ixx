@@ -7,7 +7,7 @@ export module Saigon.DirectoryWatcherBase;
 
 import Saigon.IDirectoryWatcher;
 import Saigon.IObserver;
-import Saigon.WatchingInfo;
+import Saigon.WatchingSetting;
 
 namespace saigon::observation
 {
@@ -15,7 +15,7 @@ namespace saigon::observation
 	{
 	public:
 		~directory_watcher_base() noexcept override;
-		void start(watching_info&& info);
+		bool start(watching_setting&&);
 		void stop() noexcept;
 
 	private:

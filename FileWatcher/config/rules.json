@@ -1,6 +1,17 @@
 {
-  "user_exclude_paths": [
+  "watching_settings": [
+    {
+      "directories": "C:\\",
+      "subtree": true,
+      "action": "copy"
+    },
+    {
+      "directories": "D:\\",
+      "subtree": true,
+      "action": "all"
+    }
   ],
+  "user_exclude_paths": [],
   "system_exclude_paths": [
     "C:\\Program Files (x86)",
     "C:\\Program Files",

@@ -107,9 +107,7 @@ namespace saigon::observation
 			auto req = reinterpret_cast<irequest*>(arg);
 			auto obs = req->get_observer();
 			auto obsImpl = dynamic_cast<observer_impl*>(obs);
-			if (not obsImpl or not obsImpl->add_directory(req)) {
-				SPDLOG_ERROR(L"Request id: {}", req->get_request_id());
-			}
+			obsImpl->add_directory(req);
 			LOGEXIT;
 		}
 	}

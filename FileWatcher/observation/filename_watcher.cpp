@@ -5,7 +5,7 @@ module;
 
 module Saigon.FilenameWatcher;
 
-import Saigon.WatchingInfo;
+import Saigon.WatchingSetting;
 
 namespace saigon::observation
 {

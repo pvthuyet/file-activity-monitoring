@@ -9,7 +9,7 @@ export module Saigon.RequestImpl;
 
 import Saigon.IRequest;
 import Saigon.IObserver;
-import Saigon.WatchingInfo;
+import Saigon.WatchingSetting;
 
 namespace saigon::observation
 {
@@ -19,7 +19,7 @@ namespace saigon::observation
 		{
 			DWORD mBufferLength{ 16384 };
 			iobserver* mObs{ nullptr };
-			watching_info mInfo;
+			watching_setting mInfo;
 		};
 		friend class directory_watcher_base;
 
