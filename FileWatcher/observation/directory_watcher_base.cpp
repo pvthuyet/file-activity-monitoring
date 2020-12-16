@@ -50,7 +50,7 @@ namespace saigon::observation
 
 		// 4. build request
 		for (auto const& e : drives) {
-			request_param param{};
+			request_impl::request_param param{};
 			param.mObs = mObserver.get();
 			param.mNotifyFilters = get_notify_filters();
 			param.mDir = e;

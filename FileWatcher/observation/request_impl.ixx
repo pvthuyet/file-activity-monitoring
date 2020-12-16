@@ -12,17 +12,18 @@ import Saigon.IObserver;
 
 namespace saigon::observation
 {
-	export struct request_param
-	{
-		DWORD mNotifyFilters{ FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME };
-		DWORD mBufferLength{ 16384 };
-		BOOL mWatchSubtree{ TRUE };
-		iobserver* mObs{ nullptr };
-		std::wstring mDir{};
-	};
-
 	export class request_impl : public irequest
 	{
+		struct request_param
+		{
+			DWORD mNotifyFilters{ FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME };
+			DWORD mBufferLength{ 16384 };
+			BOOL mWatchSubtree{ TRUE };
+			iobserver* mObs{ nullptr };
+			std::wstring mDir{};
+		};
+		friend class directory_watcher_base;
+
 	public:
 		request_impl(request_param);
 
