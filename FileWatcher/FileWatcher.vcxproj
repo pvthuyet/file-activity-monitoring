@@ -169,8 +169,6 @@
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="observation\config_reader.cpp" />
-    <ClCompile Include="observation\config_reader.ixx" />
     <ClCompile Include="observation\directory_watcher_base.cpp" />
     <ClCompile Include="observation\directory_watcher_base.ixx" />
     <ClCompile Include="observation\filename_watcher.cpp" />
@@ -182,7 +180,7 @@
     <ClCompile Include="observation\observer_impl.ixx" />
     <ClCompile Include="observation\request_impl.cpp" />
     <ClCompile Include="observation\request_impl.ixx" />
-    <ClCompile Include="observation\system_rules.ixx" />
+    <ClCompile Include="observation\watcher_rules.cpp" />
     <ClCompile Include="observation\watcher_rules.ixx" />
     <ClCompile Include="observation\watching_setting.cpp" />
     <ClCompile Include="observation\watching_setting.ixx" />

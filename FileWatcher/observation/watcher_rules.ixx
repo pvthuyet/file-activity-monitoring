@@ -1,11 +1,11 @@
 module;
 
 #include <string>
+#include <vector>
 
 export module Saigon.WatcherRules;
 
-import Saigon.SystemRules;
-import Saigon.ConfigReader;
+import Saigon.WatchingSetting;
 
 namespace saigon::observation
 {
@@ -13,36 +13,18 @@ namespace saigon::observation
 	{
 	public:
 		[[nodiscard]] static watcher_rules& get_inst();
-		bool load_rules() const;
+		bool load_rules();
 		[[nodiscard]] bool verify(std::wstring_view path) const;
+		std::vector<watching_setting> get_settings() const;
 
 	private:
 		watcher_rules() = default;
+		bool parse_json();
 
 	private:
-		system_rules mSysRules{};
+		std::vector<watching_setting> mWatchingSetting;
+		std::vector<std::wstring> mUserExPaths;
+		std::vector<std::wstring> mSysExPaths;
+		std::vector<std::wstring> mRexExPaths;
 	};
-
-	watcher_rules& watcher_rules::get_inst()
-	{
-		static watcher_rules inst{};
-		return inst;
-	}
-
-	bool watcher_rules::load_rules() const
-	{
-		config_reader cnf;
-		cnf.read();
-		return true;
-	}
-
-	bool watcher_rules::verify(std::wstring_view path) const
-	{
-		if (not mSysRules.verify(path)) {
-			return false;
-		}
-
-		//++ TODO
-		return true;
-	}
 }

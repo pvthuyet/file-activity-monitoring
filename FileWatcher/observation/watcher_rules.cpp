@@ -1,32 +1,31 @@
 module;
 
 #include <fstream>
+#include <string>
 #include "nlohmann/json.hpp"
 #include "logger_define.h"
 #include <exception>
 
-module Saigon.ConfigReader;
+module Saigon.WatcherRules;
 
 import Saigon.StringUtils;
 
 namespace saigon::observation
 {
-	watching_setting setting_from_json(nlohmann::json const& js)
+	watching_setting setting_from_json_2(nlohmann::json const& js)
 	{
-		constexpr char const* K_DIRECTORIES	= "directories";
-		constexpr char const* K_SUBTREE		= "subtree";
-		constexpr char const* K_ACTION		= "action";
+		constexpr char const* K_DIRECTORIES = "directories";
+		constexpr char const* K_SUBTREE = "subtree";
+		constexpr char const* K_ACTION = "action";
 
 		watching_setting was;
 		for (auto& [key, value] : js.items()) {
 			if (stringutils::equal(K_DIRECTORIES, key)) {
 				was.mDirectory = stringutils::convert(std::string_view{ value });
 			}
-
 			else if (stringutils::equal(K_SUBTREE, key)) {
 				was.mSubtree = value;
 			}
-
 			else if (stringutils::equal(K_ACTION, key)) {
 				was.mAction = action_from(value);
 			}
@@ -35,7 +34,33 @@ namespace saigon::observation
 		return was;
 	}
 
-	bool config_reader::read()
+	watcher_rules& watcher_rules::get_inst()
+	{
+		static watcher_rules inst{};
+		return inst;
+	}
+
+	std::vector<watching_setting> watcher_rules::get_settings() const
+	{
+		return mWatchingSetting;
+	}
+
+	bool watcher_rules::load_rules()
+	{
+		return parse_json();
+	}
+
+	bool watcher_rules::verify(std::wstring_view path) const
+	{
+		//if (not mSysRules.verify(path)) {
+		//	return false;
+		//}
+
+		//++ TODO
+		return true;
+	}
+
+	bool watcher_rules::parse_json()
 	{
 		try {
 			// load json config
@@ -49,7 +74,7 @@ namespace saigon::observation
 			mWatchingSetting.clear();
 			mWatchingSetting.reserve(setting.size());
 			for (auto const& el : setting.items()) {
-				mWatchingSetting.push_back(setting_from_json(el.value()));
+				mWatchingSetting.push_back(setting_from_json_2(el.value()));
 			}
 
 			// Parse 'system_exclude_paths'
