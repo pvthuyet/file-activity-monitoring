@@ -36,9 +36,9 @@ namespace saigon::observation
 
 	std::wstring request_impl::do_get_request_id() const
 	{
-		return std::to_wstring(mParam.mNotifyFilters) + 
-			L"-" + std::to_wstring(mParam.mWatchSubtree) + 
-			L"-" + mParam.mDir;
+		return std::to_wstring(mParam.mInfo.mAction) + 
+			L"-" + std::to_wstring(mParam.mInfo.mSubtree) + 
+			L"-" + mParam.mInfo.mDirectory;
 	}
 
 	void request_impl::do_request_termination()
@@ -60,7 +60,7 @@ namespace saigon::observation
 		}
 
 		mHdlDirectory = ::CreateFileW(
-			mParam.mDir.c_str(),					// pointer to the file name
+			mParam.mInfo.mDirectory.c_str(),					// pointer to the file name
 			FILE_LIST_DIRECTORY,                // access (read/write) mode
 			FILE_SHARE_READ						// share mode
 			| FILE_SHARE_WRITE
@@ -90,8 +90,8 @@ namespace saigon::observation
 			mHdlDirectory,						// handle to directory
 			&mBuffer[0],						// read results buffer
 			(DWORD)mBuffer.size(),				// length of buffer
-			mParam.mWatchSubtree,					// monitoring option
-			mParam.mNotifyFilters,						// filter conditions
+			mParam.mInfo.mSubtree,					// monitoring option
+			mParam.mInfo.mAction,						// filter conditions
 			&dwBytes,                           // bytes returned
 			&mOverlapped,						// overlapped buffer
 			&notification_completion);           // completion routine
@@ -105,13 +105,13 @@ namespace saigon::observation
 			FILE_NOTIFY_INFORMATION& fni = (FILE_NOTIFY_INFORMATION&)*pBase;
 
 			std::wstring wsFileName(fni.FileName, fni.FileNameLength / sizeof(wchar_t));
-			wchar_t wcRight = mParam.mDir.at(mParam.mDir.length() - 1);
+			wchar_t wcRight = mParam.mInfo.mDirectory.at(mParam.mInfo.mDirectory.length() - 1);
 			// Handle a trailing backslash, such as for a root directory.
 			if (L'\\' != wcRight) {
-				wsFileName = mParam.mDir + L"\\" + wsFileName;
+				wsFileName = mParam.mInfo.mDirectory + L"\\" + wsFileName;
 			}
 			else {
-				wsFileName = mParam.mDir + wsFileName;
+				wsFileName = mParam.mInfo.mDirectory + wsFileName;
 			}
 
 			// If it could be a short filename, expand it.

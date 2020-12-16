@@ -12,6 +12,5 @@ namespace saigon::observation
 	{
 	private:
 		void do_notify(saigon::file_notify_info) final;
-		DWORD do_get_notify_filters() const final;
 	};
 }

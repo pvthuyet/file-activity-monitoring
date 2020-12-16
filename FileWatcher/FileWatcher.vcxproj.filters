@@ -65,9 +65,6 @@
     <ClCompile Include="file_notify_info.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="observation\watching_action.ixx">
-      <Filter>Observation</Filter>
-    </ClCompile>
     <ClCompile Include="observation\request_impl.cpp">
       <Filter>Observation\request</Filter>
     </ClCompile>
@@ -112,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="observation\config_reader.cpp">
       <Filter>Observation\Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\watching_info.ixx">
+      <Filter>Observation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -184,7 +184,7 @@
     <ClCompile Include="observation\request_impl.ixx" />
     <ClCompile Include="observation\system_rules.ixx" />
     <ClCompile Include="observation\watcher_rules.ixx" />
-    <ClCompile Include="observation\watching_action.ixx" />
+    <ClCompile Include="observation\watching_info.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FileWatcher.rc" />

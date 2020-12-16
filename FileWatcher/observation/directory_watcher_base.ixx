@@ -7,18 +7,16 @@ export module Saigon.DirectoryWatcherBase;
 
 import Saigon.IDirectoryWatcher;
 import Saigon.IObserver;
+import Saigon.WatchingInfo;
+
 namespace saigon::observation
 {
 	export class directory_watcher_base : public idirectory_watcher
 	{
 	public:
 		~directory_watcher_base() noexcept override;
-		void start();
+		void start(watching_info&& info);
 		void stop() noexcept;
-		DWORD get_notify_filters() const;
-
-	private:
-		virtual DWORD do_get_notify_filters() const = 0;
 
 	private:
 		HANDLE mObserverThread{nullptr};

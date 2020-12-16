@@ -9,6 +9,7 @@ export module Saigon.RequestImpl;
 
 import Saigon.IRequest;
 import Saigon.IObserver;
+import Saigon.WatchingInfo;
 
 namespace saigon::observation
 {
@@ -16,11 +17,9 @@ namespace saigon::observation
 	{
 		struct request_param
 		{
-			DWORD mNotifyFilters{ FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME };
 			DWORD mBufferLength{ 16384 };
-			BOOL mWatchSubtree{ TRUE };
 			iobserver* mObs{ nullptr };
-			std::wstring mDir{};
+			watching_info mInfo;
 		};
 		friend class directory_watcher_base;
 

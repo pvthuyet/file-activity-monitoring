@@ -18,12 +18,7 @@ namespace saigon::observation
 		stop();
 	}
 
-	DWORD directory_watcher_base::get_notify_filters() const
-	{
-		return do_get_notify_filters();
-	}
-
-	void directory_watcher_base::start()
+	void directory_watcher_base::start(watching_info&& info)
 	{
 		LOGENTER;
 		using namespace observer::callback;
@@ -45,23 +40,17 @@ namespace saigon::observation
 		}
 		mObserverThread = reinterpret_cast<HANDLE>(ret);
 
-		// 3. enumerate all disks
-		auto drives = saigon::enumerate_drives();
+		// 2. build request
+		request_impl::request_param param{};
+		param.mObs = mObserver.get();
+		param.mInfo = std::move(info);
+		request_impl* req = new request_impl(std::move(param));
+		auto succ = ::QueueUserAPC(add_directory_proc,
+			mObserverThread,
+			reinterpret_cast<ULONG_PTR>(req));
 
-		// 4. build request
-		for (auto const& e : drives) {
-			request_impl::request_param param{};
-			param.mObs = mObserver.get();
-			param.mNotifyFilters = get_notify_filters();
-			param.mDir = e;
-			request_impl* req = new request_impl(std::move(param));
-			auto succ = ::QueueUserAPC(add_directory_proc,
-				mObserverThread,
-				reinterpret_cast<ULONG_PTR>(req));
-
-			if (not succ) {
-				SPDLOG_ERROR("Last error code: {}", ::GetLastError());
-			}
+		if (not succ) {
+			SPDLOG_ERROR("Last error code: {}", ::GetLastError());
 		}
 
 		LOGEXIT;
