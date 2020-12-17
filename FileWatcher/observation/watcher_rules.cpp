@@ -15,11 +15,11 @@ namespace saigon::observation
 {
 	watching_setting setting_from_json(nlohmann::json const& js)
 	{
+		watching_setting was;
 		constexpr char const* K_DIRECTORIES = "directories";
 		constexpr char const* K_SUBTREE = "subtree";
 		constexpr char const* K_ACTION = "action";
 
-		watching_setting was;
 		for (auto& [key, value] : js.items()) {
 			if (stringutils::equal(K_DIRECTORIES, key)) {
 				was.mDirectory = stringutils::convert(std::string_view{ value });
@@ -31,7 +31,6 @@ namespace saigon::observation
 				was.mAction = action_from(value);
 			}
 		}
-
 		return was;
 	}
 

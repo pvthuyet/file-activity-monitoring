@@ -26,8 +26,7 @@ namespace saigon
 			mFileNameWatcher = std::make_unique<observation::filename_watcher>();
 			mFileNameWatcher->start(rules.get_settings());
 		}
-		catch (std::exception const& ex)
-		{
+		catch (std::exception const& ex) {
 			SPDLOG_ERROR(ex.what());
 		}
 	}

@@ -1,8 +1,8 @@
 module;
 
 #include "nlohmann/json.hpp"
-#include <Windows.h>
 #include <string>
+#include <Windows.h>
 
 module Saigon.WatchingSetting;
 
@@ -10,6 +10,17 @@ import Saigon.StringUtils;
 
 namespace saigon::observation
 {
+	constexpr const char* K_NONE		= "none";
+	constexpr const char* K_ALL			= "all";
+	constexpr const char* K_CREATE		= "create";
+	constexpr const char* K_COPY		= "copy";
+	constexpr const char* K_MOVE		= "move";
+	constexpr const char* K_MODIFY		= "modify";
+	constexpr const char* K_DELETE		= "delete";
+	constexpr const char* K_RENAME		= "rename";
+	constexpr const char* K_ATTRIBUTE	= "attribute";
+	constexpr const char* K_SECURITY	= "security";
+
 	unsigned long action_from(std::string_view name)
 	{
 		if (stringutils::equal(K_ALL, name, true)) {
