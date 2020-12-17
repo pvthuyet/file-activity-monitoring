@@ -14,20 +14,19 @@ namespace saigon
 {
 	void ApplicationManager::start()
 	{
-		try {
-			// 1. start clipboard
-			//ClipboardWatcher::getInst().start();
+		// 1. start clipboard
+		ClipboardWatcher::getInst().start();
 
-			// 2. load rule
-			observation::watcher_rules rules;
-			rules.load_rules();
+		// 2. load rule
+		observation::watcher_rules rules;
+		rules.load_rules();
 
-			// 3. start watcher
-			mFileNameWatcher = std::make_unique<observation::filename_watcher>();
-			mFileNameWatcher->start(rules.get_settings());
-		}
-		catch (std::exception const& ex) {
-			SPDLOG_ERROR(ex.what());
+		// 3. start watcher
+		auto settings = rules.get_settings();
+		for (auto const& el : settings) {
+			auto watcher = std::make_unique<observation::filename_watcher>();
+			watcher->start(std::vector<observation::watching_setting>{el});
+			mWatchers.push_back(std::move(watcher));
 		}
 	}
 }

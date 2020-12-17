@@ -1,6 +1,7 @@
 module;
 
 #include <memory>
+#include <vector>
 
 export module Saigon.ApplicationManager;
 
@@ -14,6 +15,6 @@ namespace saigon
 		void start();
 
 	private:
-		std::unique_ptr<observation::filename_watcher> mFileNameWatcher;
+		std::vector<std::unique_ptr<observation::filename_watcher>> mWatchers;
 	};
 }

@@ -39,9 +39,9 @@ namespace saigon::observation
 		return mWatchingSetting;
 	}
 
-	bool watcher_rules::load_rules()
+	void watcher_rules::load_rules()
 	{
-		return parse_json();
+		parse_json();
 	}
 
 	bool watcher_rules::verify(std::wstring_view path) const
@@ -54,55 +54,47 @@ namespace saigon::observation
 		return true;
 	}
 
-	bool watcher_rules::parse_json()
+	void watcher_rules::parse_json()
 	{
-		try {
-			// load json config
-			using json = nlohmann::json;
-			std::ifstream ifs("config\\rules.json");
-			auto js = json::parse(ifs);
+		// load json config
+		using json = nlohmann::json;
+		std::ifstream ifs("config\\rules.json");
+		auto js = json::parse(ifs);
 
-			// Parse 'watching_settings'
-			constexpr char const* K_WATCHING_SETTINGS = "watching_settings";
-			auto const& setting = js[K_WATCHING_SETTINGS];
-			mWatchingSetting.clear();
-			mWatchingSetting.reserve(setting.size());
-			for (auto const& el : setting.items()) {
-				mWatchingSetting.push_back(setting_from_json(el.value()));
-			}
-
-			// Parse 'system_exclude_paths'
-			constexpr char const* USER_EX_PATH = "user_exclude_paths";
-			auto const& userpath = js[USER_EX_PATH];
-			mUserExPaths.clear();
-			mUserExPaths.reserve(userpath.size());
-			for (auto const& el : userpath.items()) {
-				mUserExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
-			}
-
-			// Parse 'system_exclude_paths'
-			constexpr char const* SYS_EX_PATH = "system_exclude_paths";
-			auto const& syspath = js[SYS_EX_PATH];
-			mSysExPaths.clear();
-			mSysExPaths.reserve(syspath.size());
-			for (auto const& el : syspath.items()) {
-				mSysExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
-			}
-
-			// Parse 'regex_exclude_paths'
-			constexpr char const* REX_EX_PATH = "regex_exclude_paths";
-			auto const& rexpath = js[REX_EX_PATH];
-			mRexExPaths.clear();
-			mRexExPaths.reserve(rexpath.size());
-			for (auto const& el : rexpath.items()) {
-				mRexExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
-			}
-			return true;
-		}
-		catch (std::exception const& ex) {
-			SPDLOG_ERROR(ex.what());
+		// Parse 'watching_settings'
+		constexpr char const* K_WATCHING_SETTINGS = "watching_settings";
+		auto const& setting = js[K_WATCHING_SETTINGS];
+		mWatchingSetting.clear();
+		mWatchingSetting.reserve(setting.size());
+		for (auto const& el : setting.items()) {
+			mWatchingSetting.push_back(setting_from_json(el.value()));
 		}
 
-		return false;
+		// Parse 'system_exclude_paths'
+		constexpr char const* USER_EX_PATH = "user_exclude_paths";
+		auto const& userpath = js[USER_EX_PATH];
+		mUserExPaths.clear();
+		mUserExPaths.reserve(userpath.size());
+		for (auto const& el : userpath.items()) {
+			mUserExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
+		}
+
+		// Parse 'system_exclude_paths'
+		constexpr char const* SYS_EX_PATH = "system_exclude_paths";
+		auto const& syspath = js[SYS_EX_PATH];
+		mSysExPaths.clear();
+		mSysExPaths.reserve(syspath.size());
+		for (auto const& el : syspath.items()) {
+			mSysExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
+		}
+
+		// Parse 'regex_exclude_paths'
+		constexpr char const* REX_EX_PATH = "regex_exclude_paths";
+		auto const& rexpath = js[REX_EX_PATH];
+		mRexExPaths.clear();
+		mRexExPaths.reserve(rexpath.size());
+		for (auto const& el : rexpath.items()) {
+			mRexExPaths.push_back(saigon::stringutils::convert(std::string_view{ el.value() }));
+		}
 	}
 }

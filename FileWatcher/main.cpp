@@ -13,8 +13,11 @@ int wmain(int arg, const wchar_t* argv[])
 		saigon::logger::create_logger();
 		return wWinMain(GetModuleHandle(NULL), NULL, GetCommandLine(), SW_SHOWNORMAL);
 	}
+	catch (std::exception const& ex) {
+		SPDLOG_ERROR(ex.what());
+	}
 	catch (...) {
-		std::cout << "Unhandle exception\n";
+		SPDLOG_ERROR("Unhandle exception");
 	}
 	return -1;
 }
