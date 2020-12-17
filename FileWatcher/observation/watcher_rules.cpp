@@ -6,13 +6,14 @@ module;
 #include "logger_define.h"
 #include <exception>
 
+
 module Saigon.WatcherRules;
 
 import Saigon.StringUtils;
 
 namespace saigon::observation
 {
-	watching_setting setting_from_json_2(nlohmann::json const& js)
+	watching_setting setting_from_json(nlohmann::json const& js)
 	{
 		constexpr char const* K_DIRECTORIES = "directories";
 		constexpr char const* K_SUBTREE = "subtree";
@@ -34,13 +35,7 @@ namespace saigon::observation
 		return was;
 	}
 
-	watcher_rules& watcher_rules::get_inst()
-	{
-		static watcher_rules inst{};
-		return inst;
-	}
-
-	std::vector<watching_setting> watcher_rules::get_settings() const
+	const std::vector<watching_setting>& watcher_rules::get_settings() const
 	{
 		return mWatchingSetting;
 	}
@@ -74,7 +69,7 @@ namespace saigon::observation
 			mWatchingSetting.clear();
 			mWatchingSetting.reserve(setting.size());
 			for (auto const& el : setting.items()) {
-				mWatchingSetting.push_back(setting_from_json_2(el.value()));
+				mWatchingSetting.push_back(setting_from_json(el.value()));
 			}
 
 			// Parse 'system_exclude_paths'
@@ -108,6 +103,7 @@ namespace saigon::observation
 		catch (std::exception const& ex) {
 			SPDLOG_ERROR(ex.what());
 		}
+
 		return false;
 	}
 }

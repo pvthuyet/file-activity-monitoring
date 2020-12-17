@@ -127,11 +127,7 @@ namespace saigon::observation
 					wsFileName = wbuf;
 				}
 			}
-
-			saigon::file_notify_info info(wsFileName, fni.Action);
-			if (watcher_rules::get_inst().verify(wsFileName)) {
-				get_observer()->get_watcher()->notify(std::move(info));
-			}
+			get_observer()->get_watcher()->notify(saigon::file_notify_info{ wsFileName, fni.Action });
 
 			if (!fni.NextEntryOffset) {
 				break;

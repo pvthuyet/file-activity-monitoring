@@ -16,7 +16,7 @@ namespace saigon::observation
 	{
 	public:
 		~directory_watcher_base() noexcept override;
-		bool start(std::vector<watching_setting> const&);
+		bool start(const std::vector<watching_setting>&);
 		void stop() noexcept;
 
 	private:

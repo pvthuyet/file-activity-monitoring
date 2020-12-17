@@ -3,7 +3,7 @@
     {
       "directories": "C:\\",
       "subtree": true,
-      "action": "copy"
+      "action": "all"
     },
     {
       "directories": "D:\\",

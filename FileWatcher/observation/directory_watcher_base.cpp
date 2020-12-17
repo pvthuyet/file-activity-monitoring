@@ -3,7 +3,7 @@ module;
 #include <windows.h>
 #include <process.h>
 #include <system_error>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 #include "logger_define.h"
 
 module Saigon.DirectoryWatcherBase;
@@ -19,7 +19,7 @@ namespace saigon::observation
 		stop();
 	}
 
-	bool directory_watcher_base::start(std::vector<watching_setting> const& settings)
+	bool directory_watcher_base::start(const std::vector<watching_setting>& settings)
 	{
 		LOGENTER;
 		Expects(settings.size());
