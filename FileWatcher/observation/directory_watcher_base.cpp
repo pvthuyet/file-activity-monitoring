@@ -3,6 +3,7 @@ module;
 #include <windows.h>
 #include <process.h>
 #include <system_error>
+#include <gsl/gsl_assert>
 #include "logger_define.h"
 
 module Saigon.DirectoryWatcherBase;
@@ -18,13 +19,10 @@ namespace saigon::observation
 		stop();
 	}
 
-	bool directory_watcher_base::start(watching_setting&& info)
+	bool directory_watcher_base::start(std::vector<watching_setting> const& settings)
 	{
 		LOGENTER;
-		if (not info.valid()) {
-			SPDLOG_ERROR("Invalid watching setting");
-			return false;
-		}
+		Expects(settings.size());
 
 		using namespace observer::callback;
 		// 1. Create observer object
@@ -46,19 +44,25 @@ namespace saigon::observation
 		mObserverThread = reinterpret_cast<HANDLE>(ret);
 
 		// 2. build request
-		request_impl::request_param param{};
-		param.mObs = mObserver.get();
-		param.mInfo = std::move(info);
-		request_impl* req = new request_impl(std::move(param));
-		auto succ = ::QueueUserAPC(add_directory_proc,
-			mObserverThread,
-			reinterpret_cast<ULONG_PTR>(req));
+		for (auto const& el : settings) {
+			// The setting must valid
+			if (not el.valid()) {
+				SPDLOG_WARN(L"Invalid watching setting. Action: {}, directory: {}", el.mAction, el.mDirectory);
+				continue;
+			}
+			request_impl::request_param param{};
+			param.mObs = mObserver.get();
+			param.mInfo = el;
+			request_impl* req = new request_impl(std::move(param));
+			auto succ = ::QueueUserAPC(add_directory_proc,
+				mObserverThread,
+				reinterpret_cast<ULONG_PTR>(req));
 
-		if (not succ) {
-			SPDLOG_ERROR("Last error code: {}", ::GetLastError());
-			return false;
+			if (not succ) {
+				SPDLOG_ERROR("QueueUserAPC. Last error code: {}", ::GetLastError());
+				return false;
+			}
 		}
-
 		LOGEXIT;
 		return true;
 	}

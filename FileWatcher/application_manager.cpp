@@ -23,9 +23,7 @@ namespace saigon
 			// 3. start watcher
 			auto settings = observation::watcher_rules::get_inst().get_settings();
 			mFileNameWatcher = std::make_unique<observation::filename_watcher>();
-			for (auto& el : settings) {
-				mFileNameWatcher->start(std::move(el));
-			}
+			mFileNameWatcher->start(settings);
 		}
 		catch (std::exception const& ex)
 		{

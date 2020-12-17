@@ -2,6 +2,7 @@ module;
 
 #include <Windows.h>
 #include <memory>
+#include <vector>
 
 export module Saigon.DirectoryWatcherBase;
 
@@ -15,7 +16,7 @@ namespace saigon::observation
 	{
 	public:
 		~directory_watcher_base() noexcept override;
-		bool start(watching_setting&&);
+		bool start(std::vector<watching_setting> const&);
 		void stop() noexcept;
 
 	private:
