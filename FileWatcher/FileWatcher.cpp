@@ -3,10 +3,9 @@
 
 #include "framework.h"
 #include "FileWatcher.h"
+#include "saigon_watcher.h"
 
 #define MAX_LOADSTRING 100
-
-import Saigon.ApplicationManager;
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -28,8 +27,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     //++ TODO: thuyet ApplicationManager
-    saigon::ApplicationManager appMgr;
-    appMgr.start();
+    saigon::saigon_watcher watcher;
+    watcher.start();
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);

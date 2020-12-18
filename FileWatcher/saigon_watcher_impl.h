@@ -1,20 +1,19 @@
-module;
+#pragma once
 
 #include <memory>
 #include <vector>
-
-export module Saigon.ApplicationManager;
 
 import Saigon.FilenameWatcher;
 
 namespace saigon
 {
-	export class ApplicationManager
+	class saigon_watcher_impl
 	{
 	public:
-		void start();
+		bool start();
 
 	private:
 		std::vector<std::unique_ptr<observation::filename_watcher>> mWatchers;
 	};
 }
+

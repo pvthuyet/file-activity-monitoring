@@ -42,15 +42,15 @@
     <ClInclude Include="FileWatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="saigon_watcher_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saigon_watcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="clipboard_watcher.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="application_manager.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="application_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileWatcher.cpp">
@@ -98,16 +98,22 @@
     <ClCompile Include="observation\idirectory_watcher.ixx">
       <Filter>Observation\watcher</Filter>
     </ClCompile>
-    <ClCompile Include="observation\watcher_rules.ixx">
-      <Filter>Observation\Rules</Filter>
-    </ClCompile>
     <ClCompile Include="observation\watching_setting.ixx">
       <Filter>Observation\Rules</Filter>
     </ClCompile>
     <ClCompile Include="observation\watching_setting.cpp">
       <Filter>Observation\Rules</Filter>
     </ClCompile>
-    <ClCompile Include="observation\watcher_rules.cpp">
+    <ClCompile Include="saigon_watcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="saigon_watcher_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\watching_rules.cpp">
+      <Filter>Observation\Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="observation\watching_rules.ixx">
       <Filter>Observation\Rules</Filter>
     </ClCompile>
   </ItemGroup>

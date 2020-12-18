@@ -159,13 +159,13 @@
     <ClInclude Include="FileWatcher.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="saigon_watcher.h" />
+    <ClInclude Include="saigon_watcher_impl.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="clipboard_watcher.cpp" />
     <ClCompile Include="clipboard_watcher.ixx" />
-    <ClCompile Include="application_manager.cpp" />
-    <ClCompile Include="application_manager.ixx" />
     <ClCompile Include="FileWatcher.cpp" />
     <ClCompile Include="file_notify_info.ixx" />
     <ClCompile Include="main.cpp" />
@@ -180,10 +180,12 @@
     <ClCompile Include="observation\observer_impl.ixx" />
     <ClCompile Include="observation\request_impl.cpp" />
     <ClCompile Include="observation\request_impl.ixx" />
-    <ClCompile Include="observation\watcher_rules.cpp" />
-    <ClCompile Include="observation\watcher_rules.ixx" />
+    <ClCompile Include="observation\watching_rules.cpp" />
+    <ClCompile Include="observation\watching_rules.ixx" />
     <ClCompile Include="observation\watching_setting.cpp" />
     <ClCompile Include="observation\watching_setting.ixx" />
+    <ClCompile Include="saigon_watcher.cpp" />
+    <ClCompile Include="saigon_watcher_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FileWatcher.rc" />

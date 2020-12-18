@@ -3,13 +3,13 @@ module;
 #include <string>
 #include <vector>
 
-export module Saigon.WatcherRules;
+export module Saigon.WatchingRules;
 
 import Saigon.WatchingSetting;
 
 namespace saigon::observation
 {
-	export class watcher_rules
+	export class watching_rules
 	{
 	public:
 		void load_rules();

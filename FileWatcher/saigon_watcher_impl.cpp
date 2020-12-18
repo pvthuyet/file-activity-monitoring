@@ -1,24 +1,17 @@
-module;
-
-#include <memory>
-#include <vector>
-#include "logger_define.h"
-
-module Saigon.ApplicationManager;
+#include "saigon_watcher_impl.h"
 
 import Saigon.ClipboardWatcher;
-import Saigon.WatchingSetting;
-import Saigon.WatcherRules;
+import Saigon.WatchingRules;
 
 namespace saigon
 {
-	void ApplicationManager::start()
+	bool saigon_watcher_impl::start()
 	{
 		// 1. start clipboard
 		ClipboardWatcher::getInst().start();
 
 		// 2. load rule
-		observation::watcher_rules rules;
+		observation::watching_rules rules;
 		rules.load_rules();
 
 		// 3. start watcher
@@ -28,5 +21,6 @@ namespace saigon
 			watcher->start(std::vector<observation::watching_setting>{el});
 			mWatchers.push_back(std::move(watcher));
 		}
+		return true;
 	}
 }

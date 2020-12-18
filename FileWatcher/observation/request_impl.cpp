@@ -12,7 +12,7 @@ module;
 module Saigon.RequestImpl;
 
 import Saigon.FileNotifyInfo;
-import Saigon.WatcherRules;
+import Saigon.WatchingRules;
 
 namespace saigon::observation
 {

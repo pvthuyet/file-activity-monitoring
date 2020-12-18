@@ -7,7 +7,7 @@ module;
 #include <exception>
 
 
-module Saigon.WatcherRules;
+module Saigon.WatchingRules;
 
 import Saigon.StringUtils;
 
@@ -34,17 +34,17 @@ namespace saigon::observation
 		return was;
 	}
 
-	const std::vector<watching_setting>& watcher_rules::get_settings() const
+	const std::vector<watching_setting>& watching_rules::get_settings() const
 	{
 		return mWatchingSetting;
 	}
 
-	void watcher_rules::load_rules()
+	void watching_rules::load_rules()
 	{
 		parse_json();
 	}
 
-	bool watcher_rules::verify(std::wstring_view path) const
+	bool watching_rules::verify(std::wstring_view path) const
 	{
 		//if (not mSysRules.verify(path)) {
 		//	return false;
@@ -54,7 +54,7 @@ namespace saigon::observation
 		return true;
 	}
 
-	void watcher_rules::parse_json()
+	void watching_rules::parse_json()
 	{
 		// load json config
 		using json = nlohmann::json;
