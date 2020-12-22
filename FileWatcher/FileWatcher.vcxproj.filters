@@ -28,6 +28,9 @@
     <Filter Include="Observation\watcher">
       <UniqueIdentifier>{5c7fd7cd-2e73-44d1-a7e9-851fd2ff2f7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config Files">
+      <UniqueIdentifier>{ee74f0df-1197-4c01-b123-45ac62ccfbe5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -129,5 +132,10 @@
     <ResourceCompile Include="FileWatcher.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\rules.json">
+      <Filter>Config Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
